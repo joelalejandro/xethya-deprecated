@@ -11,7 +11,7 @@ namespace Xethya.Common
         {
             using (var mt = new MersenneTwister())
             {
-                return Math.Floor((1 + mt.GenerateRandom() * 0x10000)).ToString(16).Substring(1);
+                return Math.Floor((1 + mt.GenerateRandom() * 0x10000)).ToString(16).Substring(1).PadLeft(4, '0');
             }
         }
 

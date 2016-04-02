@@ -6,7 +6,7 @@
             s4: function () {
                 var mt = new Xethya.Common.Randomness.MersenneTwister();
                 try {
-                    return Math.floor((1 + mt.generateRandom() * 65536)).toString(16).substr(1);
+                    return Bridge.String.alignString(Math.floor((1 + mt.generateRandom() * 65536)).toString(16).substr(1), 4, 48);
                 }
                 finally {
                     if (Bridge.hasValue(mt)) {

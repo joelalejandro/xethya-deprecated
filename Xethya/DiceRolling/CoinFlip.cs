@@ -13,6 +13,9 @@ namespace Xethya.DiceRolling
     /// </summary>
     public class CoinFlip : Dice
     {
+        /// <summary>
+        /// Instantiates a coinflip-type dice, with two faces.
+        /// </summary>
         public CoinFlip() : base(2)
         {
             

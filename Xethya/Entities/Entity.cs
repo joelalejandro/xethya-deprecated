@@ -14,7 +14,7 @@ namespace Xethya.Entities
     /// for all definable entities; every entity must derive
     /// from this class.
     /// </summary>
-    abstract public class Entity : INameable, IWithAttributes, IWithModifiers
+    abstract public class Entity : INameable, IWithAttributes
     {
         /// <summary>
         /// Contains the entity's GUID. Can only be set
@@ -32,17 +32,10 @@ namespace Xethya.Entities
         /// </summary>
         public bool IsVolatile { get; private set; }
 
+        /// <summary>
+        /// Returns the list of attributes associated to this entity.
+        /// </summary>
         public List<Attribute> Attributes { get; set; }
-
-        public List<Modifier> Modifiers { get; set; }
-
-        public int ModifierSum
-        {
-            get
-            {
-                return Modifiers.Sum(m => m.Value);
-            }
-        }
 
         /// <summary>
         /// Instantiates the entity, assigning it a unique ID.
@@ -52,7 +45,6 @@ namespace Xethya.Entities
             ID = Guid.Generate();
             IsVolatile = false;
             Attributes = new List<Attribute>();
-            Modifiers = new List<Modifier>();
 
             _RegisterInContainerIfNeeded();
         }
@@ -67,7 +59,6 @@ namespace Xethya.Entities
             Name = name;
             IsVolatile = false;
             Attributes = new List<Attribute>();
-            Modifiers = new List<Modifier>();
 
             _RegisterInContainerIfNeeded();
         }
@@ -84,9 +75,14 @@ namespace Xethya.Entities
             EntityContainer.Register(this);
         }
 
+        /// <summary>
+        /// Gets an entity's attribute.
+        /// </summary>
+        /// <param name="attributeName">The name of the attribute.</param>
+        /// <returns>The requested attribute.</returns>
         public Attribute GetAttributeByName(string attributeName)
         {
-            return Attributes.First(a => a.Name == attributeName);
+            return Attributes.Single(a => a.Name == attributeName);
         }
     }
 }

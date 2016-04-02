@@ -54,6 +54,12 @@ namespace Xethya.Entities
             return _Container[guid];
         }
 
+        /// <summary>
+        /// If the engine is running in debug mode, it returns
+        /// a raw reference to the container. Otherwise, this methods
+        /// does nothing.
+        /// </summary>
+        /// <returns>The EntityContainer class' static container.</returns>
         public static Dictionary<string, Entity> __GetContainer()
         {
             if (Global.Get<bool>("__XETHYA_DEBUG__"))

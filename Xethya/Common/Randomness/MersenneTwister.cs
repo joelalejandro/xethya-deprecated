@@ -20,6 +20,10 @@ namespace Xethya.Common.Randomness
         private uint[] MT { get; set; }
         private uint MTI { get; set; }
 
+        /// <summary>
+        /// Initializes the Mersenne-Twister algorithm.
+        /// </summary>
+        /// <param name="seed">Optionally, set a seed value.</param>
         public MersenneTwister(uint? seed = null)
         {
             if (!seed.HasValue)
@@ -33,6 +37,11 @@ namespace Xethya.Common.Randomness
             InitializeRandomGenerator(seed.Value);
         }
 
+        /// <summary>
+        /// Loads the initialization vector required for the
+        /// algorithm, according to a given seed.
+        /// </summary>
+        /// <param name="seed">A seed can be any non-negative integer value.</param>
         public void InitializeRandomGenerator(uint seed)
         {
             MT[0] = seed >> 0;
@@ -46,9 +55,15 @@ namespace Xethya.Common.Randomness
             }
         }
 
-        public void InitializeByArray(uint[] initKey, uint keyLength)
+        /// <summary>
+        /// An alternative way to load the initialization vector for
+        /// the algorithm.
+        /// </summary>
+        /// <param name="initKey">A list of non-negative integer values.</param>
+        public void InitializeByArray(uint[] initKey)
         {
             uint i = 1, j = 0, k;
+            uint keyLength = (uint)initKey.Length;
             InitializeRandomGenerator(19650218);
             k = N > keyLength ? N : keyLength;
             for (; k > 0; k--)
@@ -85,6 +100,10 @@ namespace Xethya.Common.Randomness
             MT[0] = 0x80000000;
         }
 
+        /// <summary>
+        /// Returns a random non-negative integer value.
+        /// </summary>
+        /// <returns>The random value.</returns>
         public uint GenerateRandomInteger()
         {
             uint y;
@@ -123,26 +142,48 @@ namespace Xethya.Common.Randomness
             return y >> 0;
         }
 
+        /// <summary>
+        /// Returns a non-negative random integer value, within
+        /// the range of Int31.
+        /// </summary>
+        /// <returns>The random number.</returns>
         public uint GenerateRandomInteger31()
         {
             return GenerateRandomInteger() >> 1;
         }
 
+        /// <summary>
+        /// Returns a non-negative random real number between 0 and 1.
+        /// </summary>
+        /// <returns>The random number.</returns>
         public double GenerateRandomReal()
         {
             return GenerateRandomInteger() * (1.0 / 4294967295.0);
         }
 
+        /// <summary>
+        /// Returns a non-negative random number between 0 and 1.
+        /// </summary>
+        /// <returns>The random number.</returns>
         public double GenerateRandom()
         {
             return GenerateRandomInteger() * (1.0 / 4294967296.0);
         }
 
+        /// <summary>
+        /// Returns a non-negative random number between 0 and 1.
+        /// </summary>
+        /// <returns>The random number.</returns>
         public double GenerateRandomReal3()
         {
             return (GenerateRandomInteger() + 0.5) * (1.0 / 4294967296.0);
         }
 
+        /// <summary>
+        /// Returns a non-negative random numbef with a resolution
+        /// of 53 bits.
+        /// </summary>
+        /// <returns>The random number.</returns>
         public double GenerateRandomReal53BitResolution()
         {
             double a = GenerateRandomInteger() >> 5;
@@ -150,6 +191,9 @@ namespace Xethya.Common.Randomness
             return (a * 671084464.0 + b) * (1.0 / 9007199254740992.0);
         }
 
+        /// <summary>
+        /// Destroys the initialization vector of the algorithm.
+        /// </summary>
         public void Dispose()
         {
             MT = null;

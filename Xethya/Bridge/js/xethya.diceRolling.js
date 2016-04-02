@@ -365,8 +365,38 @@
      */
     Bridge.define('Xethya.DiceRolling.DiceThrowType', {
         statics: {
+            /**
+             * Represents a failed throw.
+             *
+             * @static
+             * @public
+             * @memberof Xethya.DiceRolling.DiceThrowType
+             * @constant
+             * @default 0
+             * @type Xethya.DiceRolling.DiceThrowType
+             */
             failure: 0,
+            /**
+             * Represents a regular throw (can be considered successful).
+             *
+             * @static
+             * @public
+             * @memberof Xethya.DiceRolling.DiceThrowType
+             * @constant
+             * @default 1
+             * @type Xethya.DiceRolling.DiceThrowType
+             */
             normal: 1,
+            /**
+             * Represents a rare throw (can be considered critically successful).
+             *
+             * @static
+             * @public
+             * @memberof Xethya.DiceRolling.DiceThrowType
+             * @constant
+             * @default 2
+             * @type Xethya.DiceRolling.DiceThrowType
+             */
             critical: 2
         },
         $enum: true
@@ -538,6 +568,15 @@
      */
     Bridge.define('Xethya.DiceRolling.CoinFlip', {
         inherits: [Xethya.DiceRolling.Dice],
+        /**
+         * Instantiates a coinflip-type dice, with two faces.
+         *
+         * @instance
+         * @public
+         * @this Xethya.DiceRolling.CoinFlip
+         * @memberof Xethya.DiceRolling.CoinFlip
+         * @return  {void}
+         */
         constructor: function () {
             Xethya.DiceRolling.Dice.prototype.$constructor.call(this, 2);
     
@@ -545,53 +584,256 @@
         }
     });
     
+    /**
+     * A skill throw derives from a chance throw, linked to a
+     skill. It runs a d100 throw and sums to the result
+     the skill's computed value (= core value + modifier sum)
+     and the skill's associated attributes' values combined.
+     *
+     * @public
+     * @class Xethya.DiceRolling.SkillThrow
+     * @augments Xethya.DiceRolling.ChanceThrow
+     * @implements  Xethya.Common.Interfaces.IWithModifiers
+     */
     Bridge.define('Xethya.DiceRolling.SkillThrow', {
-        inherits: [Xethya.DiceRolling.ChanceThrow],
+        inherits: [Xethya.DiceRolling.ChanceThrow,Xethya.Common.Interfaces.IWithModifiers],
         config: {
             properties: {
-                SkillValue: 0
+                /**
+                 * References the skill being executed for the roll.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.DiceRolling.SkillThrow
+                 * @memberof Xethya.DiceRolling.SkillThrow
+                 * @function getSkillBeingThrown
+                 * @return  {Xethya.Entities.Skill}
+                 */
+                /**
+                 * References the skill being executed for the roll.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.DiceRolling.SkillThrow
+                 * @memberof Xethya.DiceRolling.SkillThrow
+                 * @function setSkillBeingThrown
+                 * @param   {Xethya.Entities.Skill}    value
+                 * @return  {void}
+                 */
+                SkillBeingThrown: null,
+                /**
+                 * Contains all of the modifiers referenced by the skill's attributes.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.DiceRolling.SkillThrow
+                 * @memberof Xethya.DiceRolling.SkillThrow
+                 * @function getModifiers
+                 * @return  {Bridge.List$1}
+                 */
+                /**
+                 * Contains all of the modifiers referenced by the skill's attributes.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.DiceRolling.SkillThrow
+                 * @memberof Xethya.DiceRolling.SkillThrow
+                 * @function setModifiers
+                 * @param   {Bridge.List$1}    value
+                 * @return  {void}
+                 */
+                Modifiers: null
             }
         },
-        constructor: function (skillValue) {
+        /**
+         * Prepares a skill throw.
+         *
+         * @instance
+         * @public
+         * @this Xethya.DiceRolling.SkillThrow
+         * @memberof Xethya.DiceRolling.SkillThrow
+         * @param   {Xethya.Entities.Skill}    skill    The skill being used.
+         * @return  {void}
+         */
+        constructor: function (skill) {
             Xethya.DiceRolling.ChanceThrow.prototype.$constructor.call(this);
     
-            this.setSkillValue(skillValue);
+            this.setSkillBeingThrown(skill);
         },
+        /**
+         * Returns the sum of all registered modifiers' value.
+         *
+         * @instance
+         * @public
+         * @this Xethya.DiceRolling.SkillThrow
+         * @memberof Xethya.DiceRolling.SkillThrow
+         * @function getModifierSum
+         * @return  {number}
+         */
+        /**
+         * Returns the sum of all registered modifiers' value.
+         *
+         * @instance
+         * @function setModifierSum
+         */
+        getModifierSum: function () {
+            return Bridge.Linq.Enumerable.from(this.getModifiers()).sum($_.Xethya.DiceRolling.SkillThrow.f1);
+        },
+        /**
+         * Rolls the dice, considering the skill's computed value.
+         *
+         * @instance
+         * @public
+         * @this Xethya.DiceRolling.SkillThrow
+         * @memberof Xethya.DiceRolling.SkillThrow
+         * @return  {Xethya.DiceRolling.SkillThrowResult}        The result of the skill throw, indicating if the roll
+         was a failure or not.
+         */
         roll$2: function () {
             var result = this.roll$1();
-            return new Xethya.DiceRolling.SkillThrowResult(this.getSkillValue(), result);
+            return new Xethya.DiceRolling.SkillThrowResult(this.getSkillBeingThrown().getComputedValue(), this.getModifierSum(), result);
         }
     });
     
+    Bridge.ns("Xethya.DiceRolling.SkillThrow", $_)
+    
+    Bridge.apply($_.Xethya.DiceRolling.SkillThrow, {
+        f1: function (m) {
+            return m.getValue();
+        }
+    });
+    
+    /**
+     * Contains data about the outcome of using a skill. A skill throw result
+     is derived from a chance throw, but, as the SkillThrow class, it considers
+     the skill's computed value (including modifiers) and the modifiers for
+     each of the skill's designated attributes.
+     *
+     * @public
+     * @class Xethya.DiceRolling.SkillThrowResult
+     * @augments Xethya.DiceRolling.ChanceThrowResult
+     */
     Bridge.define('Xethya.DiceRolling.SkillThrowResult', {
-        inherits: [Xethya.DiceRolling.ChanceThrowResult,Xethya.Common.Interfaces.IWithModifiers],
+        inherits: [Xethya.DiceRolling.ChanceThrowResult],
         config: {
             properties: {
-                Modifiers: null,
-                SkillValue: 0,
+                /**
+                 * References the skill's (computed) value.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.DiceRolling.SkillThrowResult
+                 * @memberof Xethya.DiceRolling.SkillThrowResult
+                 * @function getSkillValue
+                 * @return  {number}
+                 */
+                /**
+                 * References the skill's (computed) value.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.DiceRolling.SkillThrowResult
+                 * @memberof Xethya.DiceRolling.SkillThrowResult
+                 * @function setSkillValue
+                 * @param   {number}    value
+                 * @return  {void}
+                 */
+                SkillValue: Bridge.Decimal(0.0),
+                /**
+                 * References the sum of each of the modifiers associated to
+                 each of the skill's attributes.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.DiceRolling.SkillThrowResult
+                 * @memberof Xethya.DiceRolling.SkillThrowResult
+                 * @function getSkillAttributeModifiersValue
+                 * @return  {number}
+                 */
+                /**
+                 * References the sum of each of the modifiers associated to
+                 each of the skill's attributes.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.DiceRolling.SkillThrowResult
+                 * @memberof Xethya.DiceRolling.SkillThrowResult
+                 * @function setSkillAttributeModifiersValue
+                 * @param   {number}    value
+                 * @return  {void}
+                 */
+                SkillAttributeModifiersValue: Bridge.Decimal(0.0),
+                /**
+                 * If the skill has failed, this contains more data about
+                 how severe the failure was. For instance, it allows to
+                 ascertain if it was a critical failure or an almost-successful
+                 throw.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.DiceRolling.SkillThrowResult
+                 * @memberof Xethya.DiceRolling.SkillThrowResult
+                 * @function getFailureRoll
+                 * @return  {Xethya.DiceRolling.ChanceThrowResult}
+                 */
+                /**
+                 * If the skill has failed, this contains more data about
+                 how severe the failure was. For instance, it allows to
+                 ascertain if it was a critical failure or an almost-successful
+                 throw.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.DiceRolling.SkillThrowResult
+                 * @memberof Xethya.DiceRolling.SkillThrowResult
+                 * @function setFailureRoll
+                 * @param   {Xethya.DiceRolling.ChanceThrowResult}    value
+                 * @return  {void}
+                 */
                 FailureRoll: null
             }
         },
-        constructor: function (skillValue, throwResult) {
+        /**
+         * Instantiates the skill throw's result structure.
+         *
+         * @instance
+         * @public
+         * @this Xethya.DiceRolling.SkillThrowResult
+         * @memberof Xethya.DiceRolling.SkillThrowResult
+         * @param   {number}                                skillValue                      The skill's computed value.
+         * @param   {number}                                skillAttributeModifiersValue    The sum of the modifiers of the attributes contained in the skill.
+         * @param   {Xethya.DiceRolling.DiceThrowResult}    throwResult                     The dice roll result.
+         * @return  {void}
+         */
+        constructor: function (skillValue, skillAttributeModifiersValue, throwResult) {
             Xethya.DiceRolling.ChanceThrowResult.prototype.$constructor.call(this, throwResult);
     
             this.setSkillValue(skillValue);
+            this.setSkillAttributeModifiersValue(Bridge.Decimal(skillAttributeModifiersValue));
             this.getRolls().addRange(throwResult.getRolls());
-            this.setModifiers(new Bridge.List$1(Xethya.Entities.Modifier)());
         },
-        getModifierSum: function () {
-            return Bridge.Linq.Enumerable.from(this.getModifiers()).sum($_.Xethya.DiceRolling.SkillThrowResult.f1);
-        },
+        /**
+         * Returns the final sum of the dice throw. It sums the skill's
+         computed value and the roll's value, as well as the modifiers
+         of the skill's attributes.
+         *
+         * @instance
+         * @public
+         * @this Xethya.DiceRolling.SkillThrowResult
+         * @memberof Xethya.DiceRolling.SkillThrowResult
+         * @function getTotalRollValue
+         * @return  {number}
+         */
+        /**
+         * Returns the final sum of the dice throw. It sums the skill's
+         computed value and the roll's value, as well as the modifiers
+         of the skill's attributes.
+         *
+         * @instance
+         * @function setTotalRollValue
+         */
         getTotalRollValue: function () {
-            return this.getSkillValue() + this.getRollSum() + this.getModifierSum();
-        }
-    });
-    
-    Bridge.ns("Xethya.DiceRolling.SkillThrowResult", $_)
-    
-    Bridge.apply($_.Xethya.DiceRolling.SkillThrowResult, {
-        f1: function (m) {
-            return m.getValue();
+            return this.getSkillValue().add(Bridge.Decimal(this.getRollSum())).add(this.getSkillAttributeModifiersValue());
         }
     });
     
