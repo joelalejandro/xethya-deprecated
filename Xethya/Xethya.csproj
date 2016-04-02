@@ -55,6 +55,7 @@
     <Compile Include="Entities\Attribute.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityContainer.cs" />
+    <Compile Include="Entities\LivingEntity.cs" />
     <Compile Include="Entities\Modifier.cs" />
     <Compile Include="Entities\Skill.cs" />
     <Compile Include="Entities\SkilledEntity.cs" />
