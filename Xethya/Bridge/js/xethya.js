@@ -1,6 +1,12 @@
 ﻿(function (globals) {
     "use strict";
 
+    /** @namespace Xethya */
+    
+    /**
+     * @public
+     * @class Xethya.App
+     */
     Bridge.define('Xethya.App', {
         statics: {
             config: {
@@ -8,6 +14,13 @@
                     Bridge.ready(this.main);
                 }
             },
+            /**
+             * @static
+             * @public
+             * @this Xethya.App
+             * @memberof Xethya.App
+             * @return  {void}
+             */
             main: function () {
                 Bridge.global["__XETHYA_DEBUG__"] = true;
                 Bridge.global["__XETHYA_VERSION__"] = "0.1.0";

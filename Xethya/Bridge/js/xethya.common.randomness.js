@@ -5,15 +5,89 @@
     Bridge.define('Xethya.Common.Randomness.MersenneTwister', {
         inherits: [Bridge.IDisposable],
         statics: {
+            /**
+             * @static
+             * @private
+             * @memberof Xethya.Common.Randomness.MersenneTwister
+             * @constant
+             * @default 624
+             * @type number
+             */
             N: 624,
+            /**
+             * @static
+             * @private
+             * @memberof Xethya.Common.Randomness.MersenneTwister
+             * @constant
+             * @default 397
+             * @type number
+             */
             M: 397,
+            /**
+             * @static
+             * @private
+             * @memberof Xethya.Common.Randomness.MersenneTwister
+             * @constant
+             * @default 2567483615
+             * @type number
+             */
             MATRIX_A: 2567483615,
+            /**
+             * @static
+             * @private
+             * @memberof Xethya.Common.Randomness.MersenneTwister
+             * @constant
+             * @default 2147483648
+             * @type number
+             */
             UPPER_MASK: 2147483648,
+            /**
+             * @static
+             * @private
+             * @memberof Xethya.Common.Randomness.MersenneTwister
+             * @constant
+             * @default 2147483647
+             * @type number
+             */
             LOWER_MASK: 2147483647
         },
         config: {
             properties: {
+                /**
+                 * @instance
+                 * @private
+                 * @this Xethya.Common.Randomness.MersenneTwister
+                 * @memberof Xethya.Common.Randomness.MersenneTwister
+                 * @function getMT
+                 * @return  {Array.<number>}
+                 */
+                /**
+                 * @instance
+                 * @private
+                 * @this Xethya.Common.Randomness.MersenneTwister
+                 * @memberof Xethya.Common.Randomness.MersenneTwister
+                 * @function setMT
+                 * @param   {Array.<number>}    value
+                 * @return  {void}
+                 */
                 MT: null,
+                /**
+                 * @instance
+                 * @private
+                 * @this Xethya.Common.Randomness.MersenneTwister
+                 * @memberof Xethya.Common.Randomness.MersenneTwister
+                 * @function getMTI
+                 * @return  {number}
+                 */
+                /**
+                 * @instance
+                 * @private
+                 * @this Xethya.Common.Randomness.MersenneTwister
+                 * @memberof Xethya.Common.Randomness.MersenneTwister
+                 * @function setMTI
+                 * @param   {number}    value
+                 * @return  {void}
+                 */
                 MTI: 0
             }
         },

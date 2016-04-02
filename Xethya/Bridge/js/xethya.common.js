@@ -1,8 +1,23 @@
 ﻿(function (globals) {
     "use strict";
 
+    /** @namespace Xethya.Common */
+    
+    /**
+     * @static
+     * @abstract
+     * @public
+     * @class Xethya.Common.Guid
+     */
     Bridge.define('Xethya.Common.Guid', {
         statics: {
+            /**
+             * @static
+             * @private
+             * @this Xethya.Common.Guid
+             * @memberof Xethya.Common.Guid
+             * @return  {string}
+             */
             s4: function () {
                 var mt = new Xethya.Common.Randomness.MersenneTwister();
                 try {
@@ -29,8 +44,6 @@
             }
         }
     });
-    
-    /** @namespace Xethya.Common */
     
     /**
      * Represents a range of numbers, described through boundaries.
@@ -129,6 +142,14 @@
         valueInRange: function (value) {
             return Bridge.Decimal(this.getLowerBound()).lte(value) && value.lte(Bridge.Decimal(this.getUpperBound()));
         },
+        /**
+         * @instance
+         * @public
+         * @override
+         * @this Xethya.Common.ValueInterval
+         * @memberof Xethya.Common.ValueInterval
+         * @return  {string}
+         */
         toString: function () {
             return this.getLowerBound().toString() + "-" + this.getUpperBound().toString();
         }

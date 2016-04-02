@@ -42,6 +42,12 @@
      */
     Bridge.define('Xethya.Common.Interfaces.IWithSkills');
     
+    /**
+     * @abstract
+     * @public
+     * @class Xethya.Common.Interfaces.IModifierSource
+     * @implements  Xethya.Common.Interfaces.INameable
+     */
     Bridge.define('Xethya.Common.Interfaces.IModifierSource', {
         inherits: [Xethya.Common.Interfaces.INameable]
     });
