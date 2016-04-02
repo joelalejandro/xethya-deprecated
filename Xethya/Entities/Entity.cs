@@ -38,12 +38,20 @@ namespace Xethya.Entities
         public List<Attribute> Attributes { get; set; }
 
         /// <summary>
+        /// Determines if the entity is alive or not.
+        /// It defaults to false. Any derived of LivingEntity
+        /// such set this property to True.
+        /// </summary>
+        public bool IsAlive { get; set; }
+
+        /// <summary>
         /// Instantiates the entity, assigning it a unique ID.
         /// </summary>
         public Entity()
         {
             ID = Guid.Generate();
             IsVolatile = false;
+            IsAlive = false;
             Attributes = new List<Attribute>();
 
             _RegisterInContainerIfNeeded();
@@ -58,6 +66,7 @@ namespace Xethya.Entities
             ID = Guid.Generate();
             Name = name;
             IsVolatile = false;
+            IsAlive = false;
             Attributes = new List<Attribute>();
 
             _RegisterInContainerIfNeeded();
