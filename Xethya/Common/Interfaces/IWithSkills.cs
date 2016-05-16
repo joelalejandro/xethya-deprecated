@@ -18,14 +18,6 @@ namespace Xethya.Common.Interfaces
         List<Skill> Skills { get; set; }
 
         /// <summary>
-        /// Allows the implementing object to use a skill,
-        /// and returns the result of the skill throw.
-        /// </summary>
-        /// <param name="skillName">The skill's name.</param>
-        /// <returns>The skill's dice throw result.</returns>
-        SkillThrowResult UseSkill(string skillName);
-
-        /// <summary>
         /// Fetches a skill by its name.
         /// </summary>
         /// <param name="skillName">The skill's name.</param>

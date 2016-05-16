@@ -34,12 +34,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Common\Gamebook\AttributeDefinition.cs" />
+    <Compile Include="Common\Gamebook\AttributeNames.cs" />
+    <Compile Include="Common\Gamebook\RaceDefinitions.cs" />
+    <Compile Include="Common\Gamebook\RaceNames.cs" />
+    <Compile Include="Common\Gamebook\SkillDefinitions.cs" />
+    <Compile Include="Common\Gamebook\SkillNames.cs" />
+    <Compile Include="Common\Gamebook\StatDefinitions.cs" />
+    <Compile Include="Common\Gamebook\StatNames.cs" />
+    <Compile Include="Common\Interfaces\ICanUseSkills.cs" />
     <Compile Include="Common\Interfaces\IWithSkills.cs" />
     <Compile Include="Common\Interfaces\IWithAttributes.cs" />
     <Compile Include="Common\Interfaces\IModifierSource.cs" />
     <Compile Include="Common\Interfaces\INameable.cs" />
     <Compile Include="Common\Guid.cs" />
     <Compile Include="Common\Interfaces\IWithModifiers.cs" />
+    <Compile Include="Common\Interfaces\IWithStats.cs" />
     <Compile Include="Common\ValueInterval.cs" />
     <Compile Include="Common\Randomness\MersenneTwister.cs" />
     <Compile Include="DiceRolling\ChanceThrow.cs" />
@@ -54,11 +64,14 @@
     <Compile Include="DiceRolling\SkillThrowResult.cs" />
     <Compile Include="Entities\Attribute.cs" />
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\EntityAlignment.cs" />
     <Compile Include="Entities\EntityContainer.cs" />
+    <Compile Include="Entities\EntityRace.cs" />
     <Compile Include="Entities\LivingEntity.cs" />
     <Compile Include="Entities\Modifier.cs" />
     <Compile Include="Entities\Skill.cs" />
     <Compile Include="Entities\SkilledEntity.cs" />
+    <Compile Include="Entities\Stat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

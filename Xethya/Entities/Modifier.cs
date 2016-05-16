@@ -52,7 +52,7 @@ namespace Xethya.Entities
         public Modifier(string id)
         {
             ID = id;
-            Active = false;
+            Active = true;
         }
 
         /// <summary>

@@ -1,12 +1,18 @@
 ﻿using Bridge;
 using Bridge.Html5;
 using System;
+using Xethya.Common.Gamebook;
 using Xethya.Common.Randomness;
 using Xethya.DiceRolling;
 using Xethya.Entities;
 
 namespace Xethya
 {
+    public class Player : LivingEntity
+    {
+        public Player(EntityRace race) : base(race) { }
+    }
+
     public class App
     {
         [Ready]
@@ -62,28 +68,20 @@ namespace Xethya
             Console.Log("Is critical success? " + Convert.ToString(ctr.ThrowType == DiceThrowType.Critical));
             Console.GroupEnd();
 
-            /*var et = new Entity("Joel");
-            Console.GroupCollapsed("Entity test");
-            Console.Log(et);
-            Console.Log(EntityContainer.__GetContainer());
-            Console.GroupEnd();*/
-
-            var set = new SkilledEntity("Joel con habilidades");
-            var strength = new Entities.Attribute("strength");
-            strength.Value = 10;
-            var punch = new Skill("punch");
-            punch.Attributes.Add(strength);
-            punch.Value = 5;
-            set.Attributes.Add(strength);
-            set.Skills.Add(punch);
-
-            Console.GroupCollapsed("SkilledEntity test");
-            Console.Info("This test creates a entity with attributes and skills, using a skill with a linked attribute to dice-roll an action.");
-            Console.Log(set);
-            Console.Log("Joel has " + set.GetAttributeByName("strength").ComputedValue + " of strength");
-            Console.Log("Joel has " + set.GetSkillByName("punch").ComputedValue + " knowledge points in Punching");
-            Console.Log("Joel will punch");
-            Console.Log("Joel has punched with a score of " + set.UseSkill("punch").TotalRollValue + " points");
+            var dwarf = new Player(RaceDefinitions.Dwarf);
+            dwarf.Name = "Joel";
+            dwarf.Attributes.RollAllValues();
+            Console.GroupCollapsed("Player test");
+            Console.Info("This test shows a fully-featured Player entity.");
+            Console.Log(dwarf);
+            foreach (var attribute in dwarf.Attributes)
+            {
+                Console.Log(attribute.Name + ": " + attribute);
+            }
+            foreach (var stat in dwarf.Stats)
+            {
+                Console.Log(stat.Name + ": " + stat);
+            }
             Console.GroupEnd();
 
             Console.GroupEnd();

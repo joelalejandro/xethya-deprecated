@@ -5,6 +5,7 @@ using Xethya.Common;
 using Xethya.Common.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using Xethya.DiceRolling;
 
 namespace Xethya.Entities
 {
@@ -48,9 +49,20 @@ namespace Xethya.Entities
         }
 
         /// <summary>
+        /// Returns the attribute's base modifier.
+        /// </summary>
+        public int BaseModifier
+        {
+            get
+            {
+                return Modifiers.First().Value;
+            }
+        }
+
+        /// <summary>
         /// Contains the attribute's base value, with no modifiers applied.
         /// </summary>
-        protected decimal _Value;
+        protected int _Value;
 
         /// <summary>
         /// References the attribute's base value, without modifiers. When setting
@@ -58,7 +70,7 @@ namespace Xethya.Entities
         /// and recalculate the base modifier as well. If the set value is out of
         /// range, an exception will be thrown.
         /// </summary>
-        public decimal Value {
+        public virtual int Value {
             get { return _Value; }
             set
             {
@@ -78,7 +90,7 @@ namespace Xethya.Entities
         /// Returns the attribute's computed value (that is, its core value and
         /// the sum of all registered modifiers).
         /// </summary>
-        public decimal ComputedValue
+        public int ComputedValue
         {
             get
             {
@@ -118,7 +130,7 @@ namespace Xethya.Entities
         /// </summary>
         protected virtual void _RefreshBaseModifier()
         {
-            var baseModifier = new Modifier();
+            var baseModifier = new Modifier("baseModifier");
             baseModifier.Source = null;
             baseModifier.Value = Convert.ToInt32(Value * 0.15M);
             if (Modifiers.Count == 0)
@@ -128,6 +140,28 @@ namespace Xethya.Entities
             else
             {
                 Modifiers[0] = baseModifier;
+            }
+        }
+
+        public override string ToString()
+        {
+            var sign = ModifierSum >= 0 ? "+" : "-";
+            return Value.ToString() + " (" + sign + ModifierSum.ToString() + ")";
+        }
+    }
+
+    public static class AttributeExtensions
+    {
+        public static Attribute ByName(this List<Attribute> obj, string name)
+        {
+            return obj.Single(a => a.Name == name);
+        }
+
+        public static void RollAllValues(this List<Attribute> obj)
+        {
+            foreach (var attribute in obj)
+            {
+                attribute.Value = new Dice(attribute.UpperBound).Roll();
             }
         }
     }

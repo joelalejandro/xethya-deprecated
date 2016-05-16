@@ -22,6 +22,7 @@
              * @return  {void}
              */
             main: function () {
+                var $t, $t1;
                 Bridge.global["__XETHYA_DEBUG__"] = true;
                 Bridge.global["__XETHYA_VERSION__"] = "0.1.0";
                 if (Bridge.global["__XETHYA_DEBUG__"]) {
@@ -76,28 +77,22 @@
                 console.log("Is critical success? " + Bridge.Convert.toString(ctr.getThrowType() === Xethya.DiceRolling.DiceThrowType.critical));
                 console.groupEnd();
     
-                /* var et = new Entity("Joel");
-                Console.GroupCollapsed("Entity test");
-                Console.Log(et);
-                Console.Log(EntityContainer.__GetContainer());
-                Console.GroupEnd();*/
-    
-                var set = new Xethya.Entities.SkilledEntity("constructor$1", "Joel con habilidades");
-                var strength = new Xethya.Entities.Attribute("constructor", "strength");
-                strength.setValue(Bridge.Decimal(10));
-                var punch = new Xethya.Entities.Skill("constructor", "punch");
-                punch.getAttributes().add(strength);
-                punch.setValue(Bridge.Decimal(5));
-                set.getAttributes().add(strength);
-                set.getSkills().add(punch);
-    
-                console.groupCollapsed("SkilledEntity test");
-                console.info("This test creates a entity with attributes and skills, using a skill with a linked attribute to dice-roll an action.");
-                console.log(set);
-                console.log("Joel has " + set.getAttributeByName("strength").getComputedValue() + " of strength");
-                console.log("Joel has " + set.getSkillByName("punch").getComputedValue() + " knowledge points in Punching");
-                console.log("Joel will punch");
-                console.log("Joel has punched with a score of " + set.useSkill("punch").getTotalRollValue() + " points");
+                var dwarf = new Xethya.Player(Bridge.get(Xethya.Common.Gamebook.RaceDefinitions).getDwarf());
+                dwarf.setName("Joel");
+                Xethya.Entities.AttributeExtensions.rollAllValues(dwarf.getAttributes());
+                console.groupCollapsed("Player test");
+                console.info("This test shows a fully-featured Player entity.");
+                console.log(dwarf);
+                $t = Bridge.getEnumerator(dwarf.getAttributes());
+                while ($t.moveNext()) {
+                    var attribute = $t.getCurrent();
+                    console.log(attribute.getName() + ": " + attribute);
+                }
+                $t1 = Bridge.getEnumerator(dwarf.getStats());
+                while ($t1.moveNext()) {
+                    var stat = $t1.getCurrent();
+                    console.log(stat.getName() + ": " + stat);
+                }
                 console.groupEnd();
     
                 console.groupEnd();
@@ -105,7 +100,26 @@
         }
     });
     
+    /**
+     * @public
+     * @class Xethya.Player
+     * @augments Xethya.Entities.LivingEntity
+     */
+    Bridge.define('Xethya.Player', {
+        inherits: [Xethya.Entities.LivingEntity],
+        /**
+         * @instance
+         * @public
+         * @this Xethya.Player
+         * @memberof Xethya.Player
+         * @param   {Xethya.Entities.EntityRace}    race
+         * @return  {void}
+         */
+        constructor: function (race) {
+            Xethya.Entities.LivingEntity.prototype.$constructor.call(this, race);
     
+        }
+    });
     
     Bridge.init();
 })(this);

@@ -43,16 +43,6 @@ namespace Xethya.Common
             return LowerBound <= value && value <= UpperBound;
         }
 
-        /// <summary>
-        /// Checks if a value is in the defined range.
-        /// </summary>
-        /// <param name="value">Value to compare.</param>
-        /// <returns>True if in range; otherwise, false.</returns>
-        public bool ValueInRange(decimal value)
-        {
-            return LowerBound <= value && value <= UpperBound;
-        }
-
         public override string ToString()
         {
             return LowerBound.ToString() + "-" + UpperBound.ToString();

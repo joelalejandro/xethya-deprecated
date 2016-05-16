@@ -485,15 +485,15 @@
             var diceThrow = Xethya.DiceRolling.DiceThrow.prototype.roll.call(this);
             var ctr = new Xethya.DiceRolling.ChanceThrowResult(diceThrow);
     
-            if (this.get_Settings().getFailureRange().valueInRange$1(diceThrow.getRollSum())) {
+            if (this.get_Settings().getFailureRange().valueInRange(diceThrow.getRollSum())) {
                 ctr.setThrowType(Xethya.DiceRolling.DiceThrowType.failure);
             }
             else  {
-                if (this.get_Settings().getSuccessRange().valueInRange$1(diceThrow.getRollSum())) {
+                if (this.get_Settings().getSuccessRange().valueInRange(diceThrow.getRollSum())) {
                     ctr.setThrowType(Xethya.DiceRolling.DiceThrowType.normal);
                 }
                 else  {
-                    if (this.get_Settings().getCriticalSuccessRange().valueInRange$1(diceThrow.getRollSum())) {
+                    if (this.get_Settings().getCriticalSuccessRange().valueInRange(diceThrow.getRollSum())) {
                         ctr.setThrowType(Xethya.DiceRolling.DiceThrowType.critical);
                     }
                 }
@@ -738,7 +738,7 @@
                  * @param   {number}    value
                  * @return  {void}
                  */
-                SkillValue: Bridge.Decimal(0.0),
+                SkillValue: 0,
                 /**
                  * References the sum of each of the modifiers associated to
                  each of the skill's attributes.
@@ -762,7 +762,7 @@
                  * @param   {number}    value
                  * @return  {void}
                  */
-                SkillAttributeModifiersValue: Bridge.Decimal(0.0),
+                SkillAttributeModifiersValue: 0,
                 /**
                  * If the skill has failed, this contains more data about
                  how severe the failure was. For instance, it allows to
@@ -809,7 +809,7 @@
             Xethya.DiceRolling.ChanceThrowResult.prototype.$constructor.call(this, throwResult);
     
             this.setSkillValue(skillValue);
-            this.setSkillAttributeModifiersValue(Bridge.Decimal(skillAttributeModifiersValue));
+            this.setSkillAttributeModifiersValue(skillAttributeModifiersValue);
             this.getRolls().addRange(throwResult.getRolls());
         },
         /**
@@ -833,7 +833,7 @@
          * @function setTotalRollValue
          */
         getTotalRollValue: function () {
-            return this.getSkillValue().add(Bridge.Decimal(this.getRollSum())).add(this.getSkillAttributeModifiersValue());
+            return this.getSkillValue() + this.getRollSum() + this.getSkillAttributeModifiersValue();
         }
     });
     

@@ -13,7 +13,7 @@ namespace Xethya.Entities
     /// allowing to register skills associated to it. Thus, this entity
     /// can perform actions.
     /// </summary>
-    public abstract class SkilledEntity : Entity, IWithSkills
+    public abstract class SkilledEntity : Entity, IWithSkills, ICanUseSkills
     {
         /// <summary>
         /// Contains every action this entity can perform.

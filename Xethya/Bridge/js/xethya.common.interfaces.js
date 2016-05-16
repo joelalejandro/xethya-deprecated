@@ -4,6 +4,13 @@
     /** @namespace Xethya.Common.Interfaces */
     
     /**
+     * @abstract
+     * @public
+     * @class Xethya.Common.Interfaces.ICanUseSkills
+     */
+    Bridge.define('Xethya.Common.Interfaces.ICanUseSkills');
+    
+    /**
      * This interface injects the "Name" property to any given object.
      *
      * @abstract
@@ -41,6 +48,16 @@
      * @class Xethya.Common.Interfaces.IWithSkills
      */
     Bridge.define('Xethya.Common.Interfaces.IWithSkills');
+    
+    /**
+     * Apply this interface to any object requiring the
+     usage of stats.
+     *
+     * @abstract
+     * @public
+     * @class Xethya.Common.Interfaces.IWithStats
+     */
+    Bridge.define('Xethya.Common.Interfaces.IWithStats');
     
     /**
      * @abstract

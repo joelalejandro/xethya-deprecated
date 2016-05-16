@@ -82,4 +82,12 @@ namespace Xethya.Entities
             return str;
         }
     }
+
+    public static class SkillExtensions
+    {
+        public static Skill ByName(this List<Skill> obj, string name)
+        {
+            return obj.Single(s => s.Name == name);
+        }
+    }
 }
