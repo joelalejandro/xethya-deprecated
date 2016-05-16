@@ -55,6 +55,203 @@
     });
     
     /**
+     * @public
+     * @class Xethya.Entities.EntityAlignment
+     */
+    Bridge.define('Xethya.Entities.EntityAlignment', {
+        statics: {
+            /**
+             * @static
+             * @public
+             * @this Xethya.Entities.EntityAlignment
+             * @memberof Xethya.Entities.EntityAlignment
+             * @function getLawfulGood
+             * @return  {Xethya.Entities.EntityAlignment}
+             */
+            /**
+             * @instance
+             * @function setLawfulGood
+             */
+            getLawfulGood: function () {
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.good, Xethya.Entities.Order.lawful);
+            },
+            /**
+             * @static
+             * @public
+             * @this Xethya.Entities.EntityAlignment
+             * @memberof Xethya.Entities.EntityAlignment
+             * @function getLawfulNeutral
+             * @return  {Xethya.Entities.EntityAlignment}
+             */
+            /**
+             * @instance
+             * @function setLawfulNeutral
+             */
+            getLawfulNeutral: function () {
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.neutral, Xethya.Entities.Order.lawful);
+            },
+            /**
+             * @static
+             * @public
+             * @this Xethya.Entities.EntityAlignment
+             * @memberof Xethya.Entities.EntityAlignment
+             * @function getLawfulEvil
+             * @return  {Xethya.Entities.EntityAlignment}
+             */
+            /**
+             * @instance
+             * @function setLawfulEvil
+             */
+            getLawfulEvil: function () {
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.evil, Xethya.Entities.Order.lawful);
+            },
+            /**
+             * @static
+             * @public
+             * @this Xethya.Entities.EntityAlignment
+             * @memberof Xethya.Entities.EntityAlignment
+             * @function getNeutralGood
+             * @return  {Xethya.Entities.EntityAlignment}
+             */
+            /**
+             * @instance
+             * @function setNeutralGood
+             */
+            getNeutralGood: function () {
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.good, Xethya.Entities.Order.neutral);
+            },
+            /**
+             * @static
+             * @public
+             * @this Xethya.Entities.EntityAlignment
+             * @memberof Xethya.Entities.EntityAlignment
+             * @function getNeutral
+             * @return  {Xethya.Entities.EntityAlignment}
+             */
+            /**
+             * @instance
+             * @function setNeutral
+             */
+            getNeutral: function () {
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.neutral, Xethya.Entities.Order.neutral);
+            },
+            /**
+             * @static
+             * @public
+             * @this Xethya.Entities.EntityAlignment
+             * @memberof Xethya.Entities.EntityAlignment
+             * @function getNeutralEvil
+             * @return  {Xethya.Entities.EntityAlignment}
+             */
+            /**
+             * @instance
+             * @function setNeutralEvil
+             */
+            getNeutralEvil: function () {
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.evil, Xethya.Entities.Order.neutral);
+            },
+            /**
+             * @static
+             * @public
+             * @this Xethya.Entities.EntityAlignment
+             * @memberof Xethya.Entities.EntityAlignment
+             * @function getChaoticGood
+             * @return  {Xethya.Entities.EntityAlignment}
+             */
+            /**
+             * @instance
+             * @function setChaoticGood
+             */
+            getChaoticGood: function () {
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.good, Xethya.Entities.Order.chaotic);
+            },
+            /**
+             * @static
+             * @public
+             * @this Xethya.Entities.EntityAlignment
+             * @memberof Xethya.Entities.EntityAlignment
+             * @function getChaoticNeutral
+             * @return  {Xethya.Entities.EntityAlignment}
+             */
+            /**
+             * @instance
+             * @function setChaoticNeutral
+             */
+            getChaoticNeutral: function () {
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.neutral, Xethya.Entities.Order.chaotic);
+            },
+            /**
+             * @static
+             * @public
+             * @this Xethya.Entities.EntityAlignment
+             * @memberof Xethya.Entities.EntityAlignment
+             * @function getChaoticEvil
+             * @return  {Xethya.Entities.EntityAlignment}
+             */
+            /**
+             * @instance
+             * @function setChaoticEvil
+             */
+            getChaoticEvil: function () {
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.evil, Xethya.Entities.Order.chaotic);
+            }
+        },
+        config: {
+            properties: {
+                /**
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.EntityAlignment
+                 * @memberof Xethya.Entities.EntityAlignment
+                 * @function getMoral
+                 * @return  {Xethya.Entities.Moral}
+                 */
+                /**
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.EntityAlignment
+                 * @memberof Xethya.Entities.EntityAlignment
+                 * @function setMoral
+                 * @param   {Xethya.Entities.Moral}    value
+                 * @return  {void}
+                 */
+                Moral: 0,
+                /**
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.EntityAlignment
+                 * @memberof Xethya.Entities.EntityAlignment
+                 * @function getOrder
+                 * @return  {Xethya.Entities.Order}
+                 */
+                /**
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.EntityAlignment
+                 * @memberof Xethya.Entities.EntityAlignment
+                 * @function setOrder
+                 * @param   {Xethya.Entities.Order}    value
+                 * @return  {void}
+                 */
+                Order: 0
+            }
+        },
+        /**
+         * @instance
+         * @public
+         * @this Xethya.Entities.EntityAlignment
+         * @memberof Xethya.Entities.EntityAlignment
+         * @param   {Xethya.Entities.Moral}    moral    
+         * @param   {Xethya.Entities.Order}    order
+         * @return  {void}
+         */
+        constructor: function (moral, order) {
+            this.setMoral(moral);
+            this.setOrder(order);
+        }
+    });
+    
+    /**
      * A container that keeps track of all non-volatile entities
      in the game.
      *
@@ -322,6 +519,80 @@
         deactivate: function () {
             this.setActive(false);
         }
+    });
+    
+    /**
+     * @public
+     * @class Xethya.Entities.Moral
+     */
+    Bridge.define('Xethya.Entities.Moral', {
+        statics: {
+            /**
+             * @static
+             * @public
+             * @memberof Xethya.Entities.Moral
+             * @constant
+             * @default 0
+             * @type Xethya.Entities.Moral
+             */
+            good: 0,
+            /**
+             * @static
+             * @public
+             * @memberof Xethya.Entities.Moral
+             * @constant
+             * @default 1
+             * @type Xethya.Entities.Moral
+             */
+            neutral: 1,
+            /**
+             * @static
+             * @public
+             * @memberof Xethya.Entities.Moral
+             * @constant
+             * @default 2
+             * @type Xethya.Entities.Moral
+             */
+            evil: 2
+        },
+        $enum: true
+    });
+    
+    /**
+     * @public
+     * @class Xethya.Entities.Order
+     */
+    Bridge.define('Xethya.Entities.Order', {
+        statics: {
+            /**
+             * @static
+             * @public
+             * @memberof Xethya.Entities.Order
+             * @constant
+             * @default 0
+             * @type Xethya.Entities.Order
+             */
+            lawful: 0,
+            /**
+             * @static
+             * @public
+             * @memberof Xethya.Entities.Order
+             * @constant
+             * @default 1
+             * @type Xethya.Entities.Order
+             */
+            neutral: 1,
+            /**
+             * @static
+             * @public
+             * @memberof Xethya.Entities.Order
+             * @constant
+             * @default 2
+             * @type Xethya.Entities.Order
+             */
+            chaotic: 2
+        },
+        $enum: true
     });
     
     /**
@@ -906,6 +1177,42 @@
                  * @public
                  * @this Xethya.Entities.EntityRace
                  * @memberof Xethya.Entities.EntityRace
+                 * @function getLifeExpectancy
+                 * @return  {number}
+                 */
+                /**
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.EntityRace
+                 * @memberof Xethya.Entities.EntityRace
+                 * @function setLifeExpectancy
+                 * @param   {number}    value
+                 * @return  {void}
+                 */
+                LifeExpectancy: 0,
+                /**
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.EntityRace
+                 * @memberof Xethya.Entities.EntityRace
+                 * @function getDefaultAlignment
+                 * @return  {Xethya.Entities.EntityAlignment}
+                 */
+                /**
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.EntityRace
+                 * @memberof Xethya.Entities.EntityRace
+                 * @function setDefaultAlignment
+                 * @param   {Xethya.Entities.EntityAlignment}    value
+                 * @return  {void}
+                 */
+                DefaultAlignment: null,
+                /**
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.EntityRace
+                 * @memberof Xethya.Entities.EntityRace
                  * @function getName
                  * @return  {string}
                  */
@@ -1021,6 +1328,36 @@
          */
         getStatByName: function (statName) {
             return Xethya.Entities.StatExtensions.byName(this.getStats(), statName);
+        },
+        /**
+         * @instance
+         * @public
+         * @this Xethya.Entities.EntityRace
+         * @memberof Xethya.Entities.EntityRace
+         * @param   {string}    attributeName    
+         * @param   {number}    value
+         * @return  {void}
+         */
+        defineAttributeBoost: function (attributeName, value) {
+            var attribute = new Xethya.Entities.Attribute("constructor", attributeName);
+            attribute.setValue(value);
+            this.getAttributes().add(attribute);
+        },
+        /**
+         * @instance
+         * @public
+         * @this Xethya.Entities.EntityRace
+         * @memberof Xethya.Entities.EntityRace
+         * @param   {string}    statName    
+         * @param   {number}    value
+         * @return  {void}
+         */
+        defineStatBoost: function (statName, value) {
+            var stat = new Xethya.Entities.Stat("constructor", statName);
+            var modifier = new Xethya.Entities.Modifier("constructor");
+            modifier.setValue(value);
+            stat.getModifiers().insert(1, modifier);
+            this.getStats().add(stat);
         }
     });
     
@@ -1458,6 +1795,24 @@
         config: {
             properties: {
                 /**
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.LivingEntity
+                 * @memberof Xethya.Entities.LivingEntity
+                 * @function getAge
+                 * @return  {number}
+                 */
+                /**
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.LivingEntity
+                 * @memberof Xethya.Entities.LivingEntity
+                 * @function setAge
+                 * @param   {number}    value
+                 * @return  {void}
+                 */
+                Age: 0,
+                /**
                  * Allows the implementing object to hold stats.
                  *
                  * @instance
@@ -1525,6 +1880,51 @@
             this._ApplyRacialTraits();
         },
         /**
+         * @instance
+         * @public
+         * @this Xethya.Entities.LivingEntity
+         * @memberof Xethya.Entities.LivingEntity
+         * @function getHasDeityTraits
+         * @return  {boolean}
+         */
+        /**
+         * @instance
+         * @function setHasDeityTraits
+         */
+        getHasDeityTraits: function () {
+            return Bridge.Linq.Enumerable.from(this.getAttributes()).any($_.Xethya.Entities.LivingEntity.f1);
+        },
+        /**
+         * @instance
+         * @public
+         * @this Xethya.Entities.LivingEntity
+         * @memberof Xethya.Entities.LivingEntity
+         * @function getIsPureDeity
+         * @return  {boolean}
+         */
+        /**
+         * @instance
+         * @function setIsPureDeity
+         */
+        getIsPureDeity: function () {
+            return Bridge.Linq.Enumerable.from(this.getAttributes()).all($_.Xethya.Entities.LivingEntity.f1);
+        },
+        /**
+         * @instance
+         * @public
+         * @this Xethya.Entities.LivingEntity
+         * @memberof Xethya.Entities.LivingEntity
+         * @function getIsBeyondLifeExpectancy
+         * @return  {boolean}
+         */
+        /**
+         * @instance
+         * @function setIsBeyondLifeExpectancy
+         */
+        getIsBeyondLifeExpectancy: function () {
+            return !(new Xethya.Common.ValueInterval(1, this.getRace().getLifeExpectancy()).valueInRange(this.getAge()));
+        },
+        /**
          * Selects a stat from the list by its
          name and returns it.
          *
@@ -1558,7 +1958,9 @@
          * @return  {void}
          */
         _RegisterLivingEntitySkills: function () {
-            this.getSkills().addRange([Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).athletics(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Strength)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).acrobatics(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Dexterity)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).sleightOfHand(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Dexterity)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).stealth(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Dexterity)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).arcana(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Intelligence)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).history(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Intelligence)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).investigation(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Intelligence)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).nature(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Intelligence)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).religion(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Intelligence)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).animalHandling(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Wisdom)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).insight(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Wisdom)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).medicine(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Wisdom)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).perception(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Wisdom)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).survival(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Wisdom)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).deception(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Charisma)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).intimidation(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Charisma)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).performance(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Charisma)), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).persuasion(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Charisma))]);
+            var STR = this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Strength), DEX = this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Dexterity), INT = this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Intelligence), WIS = this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Wisdom), CHA = this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Charisma);
+    
+            this.getSkills().addRange([Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).athletics(STR), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).acrobatics(DEX), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).sleightOfHand(DEX), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).stealth(DEX), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).arcana(INT), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).history(INT), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).investigation(INT), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).nature(INT), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).religion(INT), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).animalHandling(WIS), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).insight(WIS), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).medicine(WIS), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).perception(WIS), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).survival(WIS), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).deception(CHA), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).intimidation(CHA), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).performance(CHA), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).persuasion(CHA)]);
         },
         /**
          * @instance
@@ -1603,6 +2005,14 @@
                 raceTrait2.setValue(Bridge.Convert.toInt32(Xethya.Entities.StatExtensions.byName(this.getRace().getStats(), stat.getName()).getModifiers().getItem(1)));
                 Xethya.Entities.StatExtensions.byName(this.getStats(), stat.getName()).getModifiers().add(raceTrait2);
             }
+        }
+    });
+    
+    Bridge.ns("Xethya.Entities.LivingEntity", $_)
+    
+    Bridge.apply($_.Xethya.Entities.LivingEntity, {
+        f1: function (a) {
+            return a.getValue() >= 27;
         }
     });
     

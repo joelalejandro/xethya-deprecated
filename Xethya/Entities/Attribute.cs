@@ -105,7 +105,7 @@ namespace Xethya.Entities
         /// <param name="name">The new attribute's name.</param>
         public Attribute(string name) : base(0, Int32.MaxValue)
         {
-            ID = Guid.Generate();
+            ID = Guid.NewGuid().ToString();
             Name = name;
             Modifiers = new List<Modifier>();
         }
@@ -117,7 +117,7 @@ namespace Xethya.Entities
         /// <param name="valueRange">An instane of ValueInterval, containing the lower and upper limits of the value range.</param>
         public Attribute(string name, ValueInterval valueRange) : base(valueRange.LowerBound, valueRange.UpperBound)
         {
-            ID = Guid.Generate();
+            ID = Guid.NewGuid().ToString();
             Name = name;
             Modifiers = new List<Modifier>();
         }

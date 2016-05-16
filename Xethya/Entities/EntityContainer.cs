@@ -14,7 +14,7 @@ namespace Xethya.Entities
         /// <summary>
         /// Contains all registered entities.
         /// </summary>
-        private static Dictionary<string, Entity> _Container { get; set; }
+        private static Dictionary<Guid, Entity> _Container { get; set; }
 
         /// <summary>
         /// Initializes the container for the first time. This method
@@ -26,7 +26,7 @@ namespace Xethya.Entities
         {
             if (_Container == null)
             {
-                _Container = new Dictionary<string, Entity>();
+                _Container = new Dictionary<Guid, Entity>();
             }
         }
 
@@ -51,7 +51,7 @@ namespace Xethya.Entities
         /// <returns>The entity itself.</returns>
         public static Entity Lookup(string guid)
         {
-            return _Container[guid];
+            return _Container[Guid.Parse(guid)];
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Xethya.Entities
         /// does nothing.
         /// </summary>
         /// <returns>The EntityContainer class' static container.</returns>
-        public static Dictionary<string, Entity> __GetContainer()
+        public static Dictionary<Guid, Entity> __GetContainer()
         {
             if (Global.Get<bool>("__XETHYA_DEBUG__"))
             {

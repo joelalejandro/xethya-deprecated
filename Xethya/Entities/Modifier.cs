@@ -1,6 +1,6 @@
 ﻿using Bridge;
 using Bridge.Html5;
-using Xethya.Common;
+using System;
 using Xethya.Common.Interfaces;
 
 namespace Xethya.Entities
@@ -41,7 +41,7 @@ namespace Xethya.Entities
         /// </summary>
         public Modifier()
         {
-            ID = Guid.Generate();
+            ID = Guid.NewGuid().ToString();
             Active = true;
         }
 

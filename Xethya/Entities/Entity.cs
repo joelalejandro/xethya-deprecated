@@ -20,7 +20,7 @@ namespace Xethya.Entities
         /// Contains the entity's GUID. Can only be set
         /// at class instantiation.
         /// </summary>
-        public string ID { get; private set; }
+        public Guid ID { get; private set; }
 
         /// <summary>
         /// Contains a descriptive name for the entity.
@@ -49,7 +49,7 @@ namespace Xethya.Entities
         /// </summary>
         public Entity()
         {
-            ID = Guid.Generate();
+            ID = Guid.NewGuid();
             IsVolatile = false;
             IsAlive = false;
             Attributes = new List<Attribute>();
@@ -63,7 +63,7 @@ namespace Xethya.Entities
         /// <param name="name">The entity's name.</param>
         public Entity(string name)
         {
-            ID = Guid.Generate();
+            ID = Guid.NewGuid();
             Name = name;
             IsVolatile = false;
             IsAlive = false;
