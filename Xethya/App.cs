@@ -1,6 +1,5 @@
 ﻿using Bridge;
 using Bridge.Html5;
-using System;
 using Xethya.Common.Gamebook;
 using Xethya.Common.Randomness;
 using Xethya.DiceRolling;
@@ -63,9 +62,9 @@ namespace Xethya
             Console.Info("This test shows the success rate of a chance throw.");
             Console.Log(ctr);
             Console.Log("Roll sum: " + ctr.RollSum);
-            Console.Log("Is failure? " + Convert.ToString(ctr.ThrowType == DiceThrowType.Failure));
-            Console.Log("Is success? " + Convert.ToString(ctr.ThrowType == DiceThrowType.Normal));
-            Console.Log("Is critical success? " + Convert.ToString(ctr.ThrowType == DiceThrowType.Critical));
+            Console.Log("Is failure? " + System.Convert.ToString(ctr.ThrowType == DiceThrowType.Failure));
+            Console.Log("Is success? " + System.Convert.ToString(ctr.ThrowType == DiceThrowType.Normal));
+            Console.Log("Is critical success? " + System.Convert.ToString(ctr.ThrowType == DiceThrowType.Critical));
             Console.GroupEnd();
 
             var dwarf = new Player(RaceDefinitions.Dwarf);
