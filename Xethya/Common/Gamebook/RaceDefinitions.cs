@@ -48,6 +48,8 @@ namespace Xethya.Common.Gamebook
                 race.LifeExpectancy = 750;
                 race.DefaultAlignment = EntityAlignment.ChaoticGood;
 
+                race.HeightRange = "152,184".AsValueInterval();
+
                 return race;
             }
         }
