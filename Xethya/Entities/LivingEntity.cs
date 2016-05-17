@@ -57,6 +57,19 @@ namespace Xethya.Entities
         /// </summary>
         public EntityRace Race { get; set; }
 
+        public override int Height
+        {
+            get
+            {
+                return base.Height;
+            }
+
+            set
+            {
+                base.Height = (int)Math.Min(Race.HeightRange.LowerBound, Math.Max(Race.HeightRange.UpperBound, value));
+            }
+        }
+
         /// <summary>
         /// Selects a stat from the list by its
         /// name and returns it.

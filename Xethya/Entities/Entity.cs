@@ -35,7 +35,7 @@ namespace Xethya.Entities
         /// <summary>
         /// The entity's height, in centimeters.
         /// </summary>
-        public int Height { get; set; }
+        public virtual int Height { get; set; }
 
         /// <summary>
         /// The entity's weight, in kilograms.
