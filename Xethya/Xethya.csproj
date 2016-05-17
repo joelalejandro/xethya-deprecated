@@ -50,6 +50,7 @@
     <Compile Include="Common\Interfaces\INameable.cs" />
     <Compile Include="Common\Interfaces\IWithModifiers.cs" />
     <Compile Include="Common\Interfaces\IWithStats.cs" />
+    <Compile Include="Common\MetricExtensions.cs" />
     <Compile Include="Common\ValueInterval.cs" />
     <Compile Include="Common\Randomness\MersenneTwister.cs" />
     <Compile Include="DiceRolling\ChanceThrow.cs" />

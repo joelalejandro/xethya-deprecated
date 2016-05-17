@@ -22,6 +22,8 @@ namespace Xethya.Entities
 
         public List<Stat> Stats { get; set; }
 
+        public ValueInterval HeightRange { get; set; }
+
         public Attribute GetAttributeByName(string attributeName)
         {
             return Attributes.ByName(attributeName);

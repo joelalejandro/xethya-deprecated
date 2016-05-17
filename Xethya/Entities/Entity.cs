@@ -33,6 +33,16 @@ namespace Xethya.Entities
         public bool IsVolatile { get; private set; }
 
         /// <summary>
+        /// The entity's height, in centimeters.
+        /// </summary>
+        public int Height { get; set; }
+
+        /// <summary>
+        /// The entity's weight, in kilograms.
+        /// </summary>
+        public int Weight { get; set; }
+
+        /// <summary>
         /// Returns the list of attributes associated to this entity.
         /// </summary>
         public List<Attribute> Attributes { get; set; }

@@ -117,8 +117,12 @@ namespace Xethya.Entities
         {
             Stats.AddRange(new[]
             {
-                StatDefinitions.CarryingCapacity(GetAttributeByName(AttributeNames.Strength)),
-                StatDefinitions.HitPoints(GetAttributeByName(AttributeNames.Constitution))
+                StatDefinitions.HitPoints(GetAttributeByName(AttributeNames.Constitution)),
+                StatDefinitions.Height(Height)
+            });
+            Stats.AddRange(new[]
+            {
+                StatDefinitions.CarryingCapacity(GetAttributeByName(AttributeNames.Strength), GetStatByName(StatNames.Size))
             });
             Stats.AddRange(new[]
             {

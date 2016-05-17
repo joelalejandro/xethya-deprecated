@@ -23,7 +23,7 @@ namespace Xethya.Entities
         /// The value which is used to affect the associated skill
         /// or attribute.
         /// </summary>
-        public int Value { get; set; }
+        public decimal Value { get; set; }
 
         /// <summary>
         /// A string identifier representing the reason why this

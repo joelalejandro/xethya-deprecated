@@ -29,7 +29,7 @@ namespace Xethya.DiceRolling
         /// <summary>
         /// Returns the sum of all registered modifiers' value.
         /// </summary>
-        public int ModifierSum
+        public decimal ModifierSum
         {
             get
             {
@@ -54,7 +54,7 @@ namespace Xethya.DiceRolling
         public new SkillThrowResult Roll()
         {
             var result = base.Roll();
-            return new SkillThrowResult(SkillBeingThrown.ComputedValue, ModifierSum, result);
+            return new SkillThrowResult(SkillBeingThrown.ComputedValue.As<decimal>(), ModifierSum, result);
         }
     }
 }

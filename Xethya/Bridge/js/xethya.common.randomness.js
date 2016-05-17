@@ -103,11 +103,12 @@
          */
         constructor: function (seed) {
             if (seed === void 0) { seed = null; }
+    
             if (!Bridge.Nullable.hasValue(seed)) {
-                seed = Bridge.Int.trunc(new Date().getTime());
+                seed = Bridge.Int.clipu32(new Date().getTime());
             }
     
-            this.setMT(Bridge.Array.init(Bridge.get(Xethya.Common.Randomness.MersenneTwister).N, 0));
+            this.setMT(Bridge.Array.init(Xethya.Common.Randomness.MersenneTwister.N, 0));
             this.setMTI(625);
     
             this.initializeRandomGenerator(Bridge.Nullable.getValue(seed));
@@ -125,9 +126,9 @@
          */
         initializeRandomGenerator: function (seed) {
             this.getMT()[0] = seed >>> 0;
-            for (this.setMTI(1); this.getMTI() < Bridge.get(Xethya.Common.Randomness.MersenneTwister).N; this.setMTI(this.getMTI()+1)) {
-                seed = this.getMT()[this.getMTI() - 1] ^ (this.getMT()[this.getMTI() - 1] >>> 30);
-                this.getMT()[this.getMTI()] = ((((seed & 4294901760) >>> 16) * 1812433253) << 16) + ((seed & 65535) * 1812433253) + this.getMTI();
+            for (this.setMTI(1); this.getMTI() < Xethya.Common.Randomness.MersenneTwister.N; this.setMTI((this.getMTI() + 1) >>> 0)) {
+                seed = (this.getMT()[((this.getMTI() - 1) >>> 0)] ^ (this.getMT()[((this.getMTI() - 1) >>> 0)] >>> 30)) >>> 0;
+                this.getMT()[this.getMTI()] = (((((((((((((seed & 4294901760) >>> 0)) >>> 16) * 1812433253) >>> 0)) << 16) >>> 0)) + ((((((seed & 65535) >>> 0)) * 1812433253) >>> 0))) >>> 0) + this.getMTI()) >>> 0;
                 this.getMT()[this.getMTI()] = this.getMT()[this.getMTI()] >>> 0;
             }
         },
@@ -144,16 +145,16 @@
          */
         initializeByArray: function (initKey) {
             var i = 1, j = 0, k;
-            var keyLength = Bridge.cast(initKey.length, Bridge.Int);
+            var keyLength = initKey.length >>> 0;
             this.initializeRandomGenerator(19650218);
-            k = Bridge.get(Xethya.Common.Randomness.MersenneTwister).N > keyLength ? Bridge.get(Xethya.Common.Randomness.MersenneTwister).N : keyLength;
-            for (; k > 0; k--) {
-                var s = this.getMT()[i - 1] ^ (this.getMT()[i - 1] >>> 30);
-                this.getMT()[i] = (this.getMT()[i] ^ (((((s & 4294901760) >>> 16) * 1664525) << 16) + ((s & 65535) * 1664525))) + initKey[j] + j;
+            k = Xethya.Common.Randomness.MersenneTwister.N > keyLength ? Xethya.Common.Randomness.MersenneTwister.N : keyLength;
+            for (; k > 0; k = (k - 1) >>> 0) {
+                var s = (this.getMT()[((i - 1) >>> 0)] ^ (this.getMT()[((i - 1) >>> 0)] >>> 30)) >>> 0;
+                this.getMT()[i] = ((((((this.getMT()[i] ^ (((((((((((((s & 4294901760) >>> 0)) >>> 16) * 1664525) >>> 0)) << 16) >>> 0)) + ((((((s & 65535) >>> 0)) * 1664525) >>> 0))) >>> 0))) >>> 0)) + initKey[j]) >>> 0) + j) >>> 0;
                 this.getMT()[i] = this.getMT()[i] >>> 0;
-                i++;
-                j++;
-                if (i >= Bridge.get(Xethya.Common.Randomness.MersenneTwister).N) {
+                i = (i + 1) >>> 0;
+                j = (j + 1) >>> 0;
+                if (i >= Xethya.Common.Randomness.MersenneTwister.N) {
                     this.getMT()[0] = this.getMT()[623];
                     i = 1;
                 }
@@ -161,12 +162,12 @@
                     j = 0;
                 }
             }
-            for (k = 623; k > 0; k--) {
-                var s1 = this.getMT()[i - 1] ^ (this.getMT()[i - 1] >>> 30);
-                this.getMT()[i] = (this.getMT()[i] ^ (((((s1 & 4294901760) >>> 16) * 1566083941) << 16) + (s1 & 65535) * 1566083941)) - i;
+            for (k = 623; k > 0; k = (k - 1) >>> 0) {
+                var s1 = (this.getMT()[((i - 1) >>> 0)] ^ (this.getMT()[((i - 1) >>> 0)] >>> 30)) >>> 0;
+                this.getMT()[i] = ((((this.getMT()[i] ^ (((((((((((((s1 & 4294901760) >>> 0)) >>> 16) * 1566083941) >>> 0)) << 16) >>> 0)) + (((((s1 & 65535) >>> 0)) * 1566083941) >>> 0)) >>> 0))) >>> 0)) - i) >>> 0;
                 this.getMT()[i] = this.getMT()[i] >>> 0;
-                i++;
-                if (i >= Bridge.get(Xethya.Common.Randomness.MersenneTwister).N) {
+                i = (i + 1) >>> 0;
+                if (i >= Xethya.Common.Randomness.MersenneTwister.N) {
                     this.getMT()[0] = this.getMT()[623];
                     i = 1;
                 }
@@ -183,35 +184,34 @@
          * @return  {number}        The random value.
          */
         generateRandomInteger: function () {
-            var $t;
             var y;
-            var mag01 = [0, Bridge.get(Xethya.Common.Randomness.MersenneTwister).MATRIX_A];
+            var mag01 = [0, Xethya.Common.Randomness.MersenneTwister.MATRIX_A];
     
-            if (this.getMTI() >= Bridge.get(Xethya.Common.Randomness.MersenneTwister).N) {
+            if (this.getMTI() >= Xethya.Common.Randomness.MersenneTwister.N) {
                 var kk;
                 if (this.getMTI() === 625) {
                     this.initializeRandomGenerator(5489);
                 }
-                for (kk = 0; kk < 227; kk++) {
-                    y = (this.getMT()[kk] & Bridge.get(Xethya.Common.Randomness.MersenneTwister).UPPER_MASK) | (this.getMT()[kk + 1] & Bridge.get(Xethya.Common.Randomness.MersenneTwister).LOWER_MASK);
-                    this.getMT()[kk] = this.getMT()[kk + Bridge.get(Xethya.Common.Randomness.MersenneTwister).M] ^ (y >>> 1) ^ mag01[y & 1];
+                for (kk = 0; kk < 227; kk = (kk + 1) >>> 0) {
+                    y = ((((this.getMT()[kk] & Xethya.Common.Randomness.MersenneTwister.UPPER_MASK) >>> 0)) | (((this.getMT()[((kk + 1) >>> 0)] & Xethya.Common.Randomness.MersenneTwister.LOWER_MASK) >>> 0))) >>> 0;
+                    this.getMT()[kk] = (((this.getMT()[((kk + Xethya.Common.Randomness.MersenneTwister.M) >>> 0)] ^ (y >>> 1)) >>> 0) ^ mag01[((y & 1) >>> 0)]) >>> 0;
                 }
-                for (; kk < 623; kk++) {
-                    y = (this.getMT()[kk] & Bridge.get(Xethya.Common.Randomness.MersenneTwister).UPPER_MASK) | (this.getMT()[kk + 1] & Bridge.get(Xethya.Common.Randomness.MersenneTwister).LOWER_MASK);
-                    this.getMT()[kk] = this.getMT()[kk + (-227)] ^ (y >>> 1) ^ mag01[y & 1];
+                for (; kk < 623; kk = (kk + 1) >>> 0) {
+                    y = ((((this.getMT()[kk] & Xethya.Common.Randomness.MersenneTwister.UPPER_MASK) >>> 0)) | (((this.getMT()[((kk + 1) >>> 0)] & Xethya.Common.Randomness.MersenneTwister.LOWER_MASK) >>> 0))) >>> 0;
+                    this.getMT()[kk] = (((this.getMT()[Bridge.Long(kk).add(Bridge.Long((-227)))] ^ (y >>> 1)) >>> 0) ^ mag01[((y & 1) >>> 0)]) >>> 0;
                 }
-                y = (this.getMT()[623] & Bridge.get(Xethya.Common.Randomness.MersenneTwister).UPPER_MASK) | (this.getMT()[0] & Bridge.get(Xethya.Common.Randomness.MersenneTwister).LOWER_MASK);
-                this.getMT()[623] = this.getMT()[396] ^ (y >>> 1) ^ mag01[y & 1];
+                y = ((((this.getMT()[623] & Xethya.Common.Randomness.MersenneTwister.UPPER_MASK) >>> 0)) | (((this.getMT()[0] & Xethya.Common.Randomness.MersenneTwister.LOWER_MASK) >>> 0))) >>> 0;
+                this.getMT()[623] = (((this.getMT()[396] ^ (y >>> 1)) >>> 0) ^ mag01[((y & 1) >>> 0)]) >>> 0;
     
                 this.setMTI(0);
             }
     
-            y = this.getMT()[($t = this.getMTI(), this.setMTI($t+1), $t)];
+            y = this.getMT()[Bridge.identity(this.getMTI(), (this.setMTI((this.getMTI() + 1) >>> 0), this.getMTI()))];
     
-            y ^= (y >>> 11);
-            y ^= (y << 7) & 2636928640;
-            y ^= (y << 15) & 4022730752;
-            y ^= (y >>> 18);
+            y = (y ^ (y >>> 11)) >>> 0;
+            y = (y ^ ((((((y << 7) >>> 0)) & 2636928640) >>> 0))) >>> 0;
+            y = (y ^ ((((((y << 15) >>> 0)) & 4022730752) >>> 0))) >>> 0;
+            y = (y ^ (y >>> 18)) >>> 0;
     
             return y >>> 0;
         },

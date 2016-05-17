@@ -20,6 +20,6 @@ namespace Xethya.Common.Interfaces
         /// <summary>
         /// Returns the sum of each modifier's value.
         /// </summary>
-        int ModifierSum { get; }
+        decimal ModifierSum { get; }
     }
 }

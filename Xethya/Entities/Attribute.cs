@@ -40,7 +40,7 @@ namespace Xethya.Entities
         /// Returns the sum of all registered modifiers. An attribute (unless
         /// overriden) has always at least a base modifier.
         /// </summary>
-        public int ModifierSum
+        public decimal ModifierSum
         {
             get
             {
@@ -51,7 +51,7 @@ namespace Xethya.Entities
         /// <summary>
         /// Returns the attribute's base modifier.
         /// </summary>
-        public int BaseModifier
+        public decimal BaseModifier
         {
             get
             {
@@ -62,7 +62,7 @@ namespace Xethya.Entities
         /// <summary>
         /// Contains the attribute's base value, with no modifiers applied.
         /// </summary>
-        protected int _Value;
+        protected decimal _Value;
 
         /// <summary>
         /// References the attribute's base value, without modifiers. When setting
@@ -70,7 +70,7 @@ namespace Xethya.Entities
         /// and recalculate the base modifier as well. If the set value is out of
         /// range, an exception will be thrown.
         /// </summary>
-        public virtual int Value {
+        public virtual decimal Value {
             get { return _Value; }
             set
             {
@@ -90,7 +90,7 @@ namespace Xethya.Entities
         /// Returns the attribute's computed value (that is, its core value and
         /// the sum of all registered modifiers).
         /// </summary>
-        public int ComputedValue
+        public decimal ComputedValue
         {
             get
             {
@@ -161,7 +161,7 @@ namespace Xethya.Entities
         {
             foreach (var attribute in obj)
             {
-                attribute.Value = new Dice(attribute.UpperBound).Roll();
+                attribute.Value = new Dice(attribute.UpperBound.As<int>()).Roll();
             }
         }
     }

@@ -35,12 +35,12 @@ namespace Xethya.Entities
         /// Contains a reference to the function that computes the value
         /// of the stat, based on attributes and other stats.
         /// </summary>
-        public Func<List<Attribute>, List<Stat>, int> CalculationCallback { get; set; }
+        public Func<List<Attribute>, List<Stat>, decimal> CalculationCallback { get; set; }
 
         /// <summary>
         /// Returns the result of the calculation callback.
         /// </summary>
-        public override int Value
+        public override decimal Value
         {
             get
             {
@@ -48,7 +48,7 @@ namespace Xethya.Entities
                 {
                     throw new InvalidOperationException("A calculation callback must be defined for the " + Name + " stat.");
                 }
-                return CalculationCallback.Call(null, Attributes, Stats).As<int>();
+                return CalculationCallback.Call(null, Attributes, Stats).As<decimal>();
             }
         }
 
@@ -91,7 +91,7 @@ namespace Xethya.Entities
         /// </summary>
         /// <param name="name">The new stat's name.</param>
         /// <param name="calculationCallback">The function callback to be used when getting the value of the stat.</param>
-        public Stat(string name, Func<List<Attribute>, List<Stat>, int> calculationCallback) : base(name)
+        public Stat(string name, Func<List<Attribute>, List<Stat>, decimal> calculationCallback) : base(name)
         {
             Stats = new List<Stat>();
             Attributes = new List<Attribute>();

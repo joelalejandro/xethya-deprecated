@@ -7,40 +7,37 @@
      * @static
      * @abstract
      * @public
-     * @class Xethya.Common.Guid
+     * @class Xethya.Common.MetricExtensions
      */
-    Bridge.define('Xethya.Common.Guid', {
+    Bridge.define('Xethya.Common.MetricExtensions', {
         statics: {
             /**
-             * @static
-             * @private
-             * @this Xethya.Common.Guid
-             * @memberof Xethya.Common.Guid
-             * @return  {string}
-             */
-            s4: function () {
-                var mt = new Xethya.Common.Randomness.MersenneTwister();
-                try {
-                    return Bridge.String.alignString(Math.floor((1 + mt.generateRandom() * 65536)).toString(16).substr(1), 4, 48);
-                }
-                finally {
-                    if (Bridge.hasValue(mt)) {
-                        mt.dispose();
-                    }
-                }
-            },
-            /**
-             * Generates a GUID.
+             * Converts an integer (measured in centimeters)
+             to inches.
              *
              * @static
              * @public
-             * @this Xethya.Common.Guid
-             * @memberof Xethya.Common.Guid
-             * @return  {string}
-             * @see {@link http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript}
+             * @this Xethya.Common.MetricExtensions
+             * @memberof Xethya.Common.MetricExtensions
+             * @param   {number}    centimeters
+             * @return  {number}                   A value in inches.
              */
-            generate: function () {
-                return Bridge.String.format("{0}{1}-{2}-{3}-{4}-{5}{6}{7}", Bridge.get(Xethya.Common.Guid).s4(), Bridge.get(Xethya.Common.Guid).s4(), Bridge.get(Xethya.Common.Guid).s4(), Bridge.get(Xethya.Common.Guid).s4(), Bridge.get(Xethya.Common.Guid).s4(), Bridge.get(Xethya.Common.Guid).s4(), Bridge.get(Xethya.Common.Guid).s4(), Bridge.get(Xethya.Common.Guid).s4());
+            toInches: function (centimeters) {
+                return Bridge.Decimal(centimeters).mul(Bridge.Decimal(0.393701));
+            },
+            /**
+             * Converts an integer (measured in centimeters)
+             to feet.
+             *
+             * @static
+             * @public
+             * @this Xethya.Common.MetricExtensions
+             * @memberof Xethya.Common.MetricExtensions
+             * @param   {number}    centimeters
+             * @return  {number}                   A value in feet.
+             */
+            toFeet: function (centimeters) {
+                return Bridge.Decimal(centimeters).mul(Bridge.Decimal(0.0328084));
             }
         }
     });
@@ -76,7 +73,7 @@
                  * @param   {number}    value
                  * @return  {void}
                  */
-                UpperBound: 0,
+                UpperBound: Bridge.Decimal(0.0),
                 /**
                  * Represents the minimum number in this range.
                  *
@@ -98,7 +95,7 @@
                  * @param   {number}    value
                  * @return  {void}
                  */
-                LowerBound: 0
+                LowerBound: Bridge.Decimal(0.0)
             }
         },
         /**
@@ -127,7 +124,7 @@
          * @return  {boolean}             True if in range; otherwise, false.
          */
         valueInRange: function (value) {
-            return this.getLowerBound() <= value && value <= this.getUpperBound();
+            return this.getLowerBound().lte(value) && value.lte(this.getUpperBound());
         },
         /**
          * @instance
@@ -138,7 +135,7 @@
          * @return  {string}
          */
         toString: function () {
-            return this.getLowerBound().toString() + "-" + this.getUpperBound().toString();
+            return Bridge.Int.format(this.getLowerBound(), 'G') + "-" + Bridge.Int.format(this.getUpperBound(), 'G');
         }
     });
     
@@ -205,7 +202,7 @@
                         }
                     }
                 }
-                if (!Bridge.hasValue(range)) {
+                if (range == null) {
                     throw new Bridge.FormatException("In order for a string to become a ValueInterval, it must follow any of these formats: x,y x;y x:y x~y");
                 }
                 return range;

@@ -15,19 +15,19 @@ namespace Xethya.Common
         /// <summary>
         /// Represents the maximum number in this range.
         /// </summary>
-        public int UpperBound { get; set; }
+        public decimal UpperBound { get; set; }
 
         /// <summary>
         /// Represents the minimum number in this range.
         /// </summary>
-        public int LowerBound { get; set; }
+        public decimal LowerBound { get; set; }
         
         /// <summary>
         /// Represents a range of numbers.
         /// </summary>
         /// <param name="lowerBound">Minimum range value.</param>
         /// <param name="upperBound">Maximum range value.</param>
-        public ValueInterval(int lowerBound, int upperBound)
+        public ValueInterval(decimal lowerBound, decimal upperBound)
         {
             UpperBound = upperBound;
             LowerBound = lowerBound;
@@ -38,7 +38,7 @@ namespace Xethya.Common
         /// </summary>
         /// <param name="value">Value to compare.</param>
         /// <returns>True if in range; otherwise, false.</returns>
-        public bool ValueInRange(int value)
+        public bool ValueInRange(decimal value)
         {
             return LowerBound <= value && value <= UpperBound;
         }
@@ -51,7 +51,7 @@ namespace Xethya.Common
 
     public static class ValueIntervalExtensions
     {
-        public static ValueInterval AsValueInterval(this int[] array)
+        public static ValueInterval AsValueInterval(this decimal[] array)
         {
             if (array.Length != 2)
             {
@@ -60,7 +60,7 @@ namespace Xethya.Common
             return new ValueInterval(array[0], array[1]);
         }
 
-        public static ValueInterval AsValueInterval(this Tuple<int, int> tuple)
+        public static ValueInterval AsValueInterval(this Tuple<decimal, decimal> tuple)
         {
             return new ValueInterval(tuple.Item1, tuple.Item2);
         }
@@ -87,7 +87,7 @@ namespace Xethya.Common
                     }
                     else
                     {
-                        range = new ValueInterval(data[0].As<int>(), data[1].As<int>());
+                        range = new ValueInterval(data[0].As<decimal>(), data[1].As<decimal>());
                     }
                 }
             }

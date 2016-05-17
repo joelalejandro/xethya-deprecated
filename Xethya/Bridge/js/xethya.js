@@ -37,7 +37,7 @@
                     console.groupCollapsed("MersenneTwister test");
                     console.info("This test shows the generation of 'better' random numbers.");
                     console.log("Random Integer: " + mt.generateRandomInteger().toString());
-                    console.log("Random 0-1: " + Bridge.Int.format(mt.generateRandom(), 'G'));
+                    console.log("Random 0-1: " + Bridge.Double.format(mt.generateRandom(), 'G'));
                     console.groupEnd();
                 }
                 finally {
@@ -72,12 +72,12 @@
                 console.info("This test shows the success rate of a chance throw.");
                 console.log(ctr);
                 console.log("Roll sum: " + ctr.getRollSum());
-                console.log("Is failure? " + Bridge.Convert.toString(ctr.getThrowType() === Xethya.DiceRolling.DiceThrowType.failure));
-                console.log("Is success? " + Bridge.Convert.toString(ctr.getThrowType() === Xethya.DiceRolling.DiceThrowType.normal));
-                console.log("Is critical success? " + Bridge.Convert.toString(ctr.getThrowType() === Xethya.DiceRolling.DiceThrowType.critical));
+                console.log("Is failure? " + Bridge.Convert.toString(ctr.getThrowType() === Xethya.DiceRolling.DiceThrowType.Failure));
+                console.log("Is success? " + Bridge.Convert.toString(ctr.getThrowType() === Xethya.DiceRolling.DiceThrowType.Normal));
+                console.log("Is critical success? " + Bridge.Convert.toString(ctr.getThrowType() === Xethya.DiceRolling.DiceThrowType.Critical));
                 console.groupEnd();
     
-                var dwarf = new Xethya.Player(Bridge.get(Xethya.Common.Gamebook.RaceDefinitions).getDwarf());
+                var dwarf = new Xethya.Player(Xethya.Common.Gamebook.RaceDefinitions.getDwarf());
                 dwarf.setName("Joel");
                 Xethya.Entities.AttributeExtensions.rollAllValues(dwarf.getAttributes());
                 console.groupCollapsed("Player test");

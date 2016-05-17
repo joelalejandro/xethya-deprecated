@@ -52,7 +52,7 @@
          */
         constructor: function (numberOfDices, maxNumber) {
             this.set_Dice(new Bridge.List$1(Xethya.DiceRolling.Dice)());
-            for (var d = 0; d < numberOfDices; d++) {
+            for (var d = 0; d < numberOfDices; d = (d + 1) | 0) {
                 this.get_Dice().add(new Xethya.DiceRolling.Dice(maxNumber));
             }
         },
@@ -69,7 +69,7 @@
          */
         roll: function () {
             var dtr = new Xethya.DiceRolling.DiceThrowResult();
-            dtr.setRolls(Bridge.Linq.Enumerable.from(this.get_Dice()).select($_.Xethya.DiceRolling.DiceThrow.f1).toList(Bridge.Int));
+            dtr.setRolls(Bridge.Linq.Enumerable.from(this.get_Dice()).select($_.Xethya.DiceRolling.DiceThrow.f1).toList(Bridge.Int32));
             return dtr;
         }
     });
@@ -127,7 +127,7 @@
          * @return  {void}
          */
         constructor: function () {
-            this.setRolls(new Bridge.List$1(Bridge.Int)());
+            this.setRolls(new Bridge.List$1(Bridge.Int32)());
         },
         /**
          * Returns the sum of all rolled numbers.
@@ -240,9 +240,9 @@
          * @return  {void}
          */
         constructor: function () {
-            this.setFailureRange(new Xethya.Common.ValueInterval(1, 20));
-            this.setSuccessRange(new Xethya.Common.ValueInterval(21, 90));
-            this.setCriticalSuccessRange(new Xethya.Common.ValueInterval(91, 100));
+            this.setFailureRange(new Xethya.Common.ValueInterval(Bridge.Decimal(1), Bridge.Decimal(20)));
+            this.setSuccessRange(new Xethya.Common.ValueInterval(Bridge.Decimal(21), Bridge.Decimal(90)));
+            this.setCriticalSuccessRange(new Xethya.Common.ValueInterval(Bridge.Decimal(91), Bridge.Decimal(100)));
         },
         /**
          * Instantiates a configuration object for a chance throw.
@@ -277,9 +277,9 @@
          * @return  {void}
          */
         constructor$1: function (failureLowerBound, failureUpperBound, successLowerBound, successUpperBound, criticalSuccessLowerBound, criticalSuccessUpperBound) {
-            this.setFailureRange(new Xethya.Common.ValueInterval(failureLowerBound, failureUpperBound));
-            this.setSuccessRange(new Xethya.Common.ValueInterval(successLowerBound, successUpperBound));
-            this.setCriticalSuccessRange(new Xethya.Common.ValueInterval(criticalSuccessLowerBound, criticalSuccessUpperBound));
+            this.setFailureRange(new Xethya.Common.ValueInterval(Bridge.Decimal(failureLowerBound), Bridge.Decimal(failureUpperBound)));
+            this.setSuccessRange(new Xethya.Common.ValueInterval(Bridge.Decimal(successLowerBound), Bridge.Decimal(successUpperBound)));
+            this.setCriticalSuccessRange(new Xethya.Common.ValueInterval(Bridge.Decimal(criticalSuccessLowerBound), Bridge.Decimal(criticalSuccessUpperBound)));
         }
     });
     
@@ -347,7 +347,7 @@
         roll: function () {
             var mt = new Xethya.Common.Randomness.MersenneTwister();
             try {
-                return Bridge.Int.trunc(Math.ceil(mt.generateRandom() * this.getFaces()));
+                return Bridge.Int.clip32(Math.ceil(mt.generateRandom() * this.getFaces()));
             }
             finally {
                 if (Bridge.hasValue(mt)) {
@@ -375,7 +375,7 @@
              * @default 0
              * @type Xethya.DiceRolling.DiceThrowType
              */
-            failure: 0,
+            Failure: 0,
             /**
              * Represents a regular throw (can be considered successful).
              *
@@ -386,7 +386,7 @@
              * @default 1
              * @type Xethya.DiceRolling.DiceThrowType
              */
-            normal: 1,
+            Normal: 1,
             /**
              * Represents a rare throw (can be considered critically successful).
              *
@@ -397,7 +397,7 @@
              * @default 2
              * @type Xethya.DiceRolling.DiceThrowType
              */
-            critical: 2
+            Critical: 2
         },
         $enum: true
     });
@@ -485,16 +485,16 @@
             var diceThrow = Xethya.DiceRolling.DiceThrow.prototype.roll.call(this);
             var ctr = new Xethya.DiceRolling.ChanceThrowResult(diceThrow);
     
-            if (this.get_Settings().getFailureRange().valueInRange(diceThrow.getRollSum())) {
-                ctr.setThrowType(Xethya.DiceRolling.DiceThrowType.failure);
+            if (this.get_Settings().getFailureRange().valueInRange(Bridge.Decimal(diceThrow.getRollSum()))) {
+                ctr.setThrowType(Xethya.DiceRolling.DiceThrowType.Failure);
             }
             else  {
-                if (this.get_Settings().getSuccessRange().valueInRange(diceThrow.getRollSum())) {
-                    ctr.setThrowType(Xethya.DiceRolling.DiceThrowType.normal);
+                if (this.get_Settings().getSuccessRange().valueInRange(Bridge.Decimal(diceThrow.getRollSum()))) {
+                    ctr.setThrowType(Xethya.DiceRolling.DiceThrowType.Normal);
                 }
                 else  {
-                    if (this.get_Settings().getCriticalSuccessRange().valueInRange(diceThrow.getRollSum())) {
-                        ctr.setThrowType(Xethya.DiceRolling.DiceThrowType.critical);
+                    if (this.get_Settings().getCriticalSuccessRange().valueInRange(Bridge.Decimal(diceThrow.getRollSum()))) {
+                        ctr.setThrowType(Xethya.DiceRolling.DiceThrowType.Critical);
                     }
                 }
             }
@@ -738,7 +738,7 @@
                  * @param   {number}    value
                  * @return  {void}
                  */
-                SkillValue: 0,
+                SkillValue: Bridge.Decimal(0.0),
                 /**
                  * References the sum of each of the modifiers associated to
                  each of the skill's attributes.
@@ -762,7 +762,7 @@
                  * @param   {number}    value
                  * @return  {void}
                  */
-                SkillAttributeModifiersValue: 0,
+                SkillAttributeModifiersValue: Bridge.Decimal(0.0),
                 /**
                  * If the skill has failed, this contains more data about
                  how severe the failure was. For instance, it allows to
@@ -833,7 +833,7 @@
          * @function setTotalRollValue
          */
         getTotalRollValue: function () {
-            return this.getSkillValue() + this.getRollSum() + this.getSkillAttributeModifiersValue();
+            return this.getSkillValue().add(Bridge.Decimal(this.getRollSum())).add(this.getSkillAttributeModifiersValue());
         }
     });
     

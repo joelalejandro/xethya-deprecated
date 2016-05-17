@@ -32,7 +32,7 @@
              */
             byName: function (obj, name) {
                 return Bridge.Linq.Enumerable.from(obj).single(function (a) {
-                    return a.getName() === name;
+                    return Bridge.referenceEquals(a.getName(), name);
                 });
             },
             /**
@@ -48,7 +48,7 @@
                 $t = Bridge.getEnumerator(obj);
                 while ($t.moveNext()) {
                     var attribute = $t.getCurrent();
-                    attribute.setValue(new Xethya.DiceRolling.Dice(attribute.getUpperBound()).roll());
+                    attribute.setValue(Bridge.Decimal(new Xethya.DiceRolling.Dice(attribute.getUpperBound()).roll()));
                 }
             }
         }
@@ -73,7 +73,7 @@
              * @function setLawfulGood
              */
             getLawfulGood: function () {
-                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.good, Xethya.Entities.Order.lawful);
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.Good, Xethya.Entities.Order.Lawful);
             },
             /**
              * @static
@@ -88,7 +88,7 @@
              * @function setLawfulNeutral
              */
             getLawfulNeutral: function () {
-                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.neutral, Xethya.Entities.Order.lawful);
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.Neutral, Xethya.Entities.Order.Lawful);
             },
             /**
              * @static
@@ -103,7 +103,7 @@
              * @function setLawfulEvil
              */
             getLawfulEvil: function () {
-                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.evil, Xethya.Entities.Order.lawful);
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.Evil, Xethya.Entities.Order.Lawful);
             },
             /**
              * @static
@@ -118,7 +118,7 @@
              * @function setNeutralGood
              */
             getNeutralGood: function () {
-                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.good, Xethya.Entities.Order.neutral);
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.Good, Xethya.Entities.Order.Neutral);
             },
             /**
              * @static
@@ -133,7 +133,7 @@
              * @function setNeutral
              */
             getNeutral: function () {
-                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.neutral, Xethya.Entities.Order.neutral);
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.Neutral, Xethya.Entities.Order.Neutral);
             },
             /**
              * @static
@@ -148,7 +148,7 @@
              * @function setNeutralEvil
              */
             getNeutralEvil: function () {
-                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.evil, Xethya.Entities.Order.neutral);
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.Evil, Xethya.Entities.Order.Neutral);
             },
             /**
              * @static
@@ -163,7 +163,7 @@
              * @function setChaoticGood
              */
             getChaoticGood: function () {
-                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.good, Xethya.Entities.Order.chaotic);
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.Good, Xethya.Entities.Order.Chaotic);
             },
             /**
              * @static
@@ -178,7 +178,7 @@
              * @function setChaoticNeutral
              */
             getChaoticNeutral: function () {
-                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.neutral, Xethya.Entities.Order.chaotic);
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.Neutral, Xethya.Entities.Order.Chaotic);
             },
             /**
              * @static
@@ -193,7 +193,7 @@
              * @function setChaoticEvil
              */
             getChaoticEvil: function () {
-                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.evil, Xethya.Entities.Order.chaotic);
+                return new Xethya.Entities.EntityAlignment(Xethya.Entities.Moral.Evil, Xethya.Entities.Order.Chaotic);
             }
         },
         config: {
@@ -301,8 +301,8 @@
              * @return  {void}
              */
             initializeIfNeeded: function () {
-                if (!Bridge.hasValue(Bridge.get(Xethya.Entities.EntityContainer).get_Container())) {
-                    Bridge.get(Xethya.Entities.EntityContainer).set_Container(new Bridge.Dictionary$2(String,Xethya.Entities.Entity)());
+                if (Xethya.Entities.EntityContainer.get_Container() == null) {
+                    Xethya.Entities.EntityContainer.set_Container(new Bridge.Dictionary$2(Bridge.Guid,Xethya.Entities.Entity)());
                 }
             },
             /**
@@ -320,7 +320,7 @@
                     throw new Bridge.ArgumentException("The entity must be non-volatile in order to be registered in the Container. Set IsVolatile to true in order to do so");
                 }
     
-                Bridge.get(Xethya.Entities.EntityContainer).get_Container().add(entity.getID(), entity);
+                Xethya.Entities.EntityContainer.get_Container().add(entity.getID(), entity);
             },
             /**
              * Returns an entity looking it up in the Container by its GUID.
@@ -333,7 +333,7 @@
              * @return  {Xethya.Entities.Entity}            The entity itself.
              */
             lookup: function (guid) {
-                return Bridge.get(Xethya.Entities.EntityContainer).get_Container().get(guid);
+                return Xethya.Entities.EntityContainer.get_Container().get(Bridge.Guid.parse(guid));
             },
             /**
              * If the engine is running in debug mode, it returns
@@ -348,7 +348,7 @@
              */
             __GetContainer: function () {
                 if (Bridge.global["__XETHYA_DEBUG__"]) {
-                    return Bridge.get(Xethya.Entities.EntityContainer).get_Container();
+                    return Xethya.Entities.EntityContainer.get_Container();
                 }
                 else  {
                     return null;
@@ -417,7 +417,7 @@
                  * @param   {number}    value
                  * @return  {void}
                  */
-                Value: 0,
+                Value: Bridge.Decimal(0.0),
                 /**
                  * A string identifier representing the reason why this
                  modifier is in effect.
@@ -476,7 +476,7 @@
          * @return  {void}
          */
         constructor: function () {
-            this.setID(Bridge.get(Xethya.Common.Guid).generate());
+            this.setID(Bridge.Guid.newGuid().toString());
             this.setActive(true);
         },
         /**
@@ -535,7 +535,7 @@
              * @default 0
              * @type Xethya.Entities.Moral
              */
-            good: 0,
+            Good: 0,
             /**
              * @static
              * @public
@@ -544,7 +544,7 @@
              * @default 1
              * @type Xethya.Entities.Moral
              */
-            neutral: 1,
+            Neutral: 1,
             /**
              * @static
              * @public
@@ -553,7 +553,7 @@
              * @default 2
              * @type Xethya.Entities.Moral
              */
-            evil: 2
+            Evil: 2
         },
         $enum: true
     });
@@ -572,7 +572,7 @@
              * @default 0
              * @type Xethya.Entities.Order
              */
-            lawful: 0,
+            Lawful: 0,
             /**
              * @static
              * @public
@@ -581,7 +581,7 @@
              * @default 1
              * @type Xethya.Entities.Order
              */
-            neutral: 1,
+            Neutral: 1,
             /**
              * @static
              * @public
@@ -590,7 +590,7 @@
              * @default 2
              * @type Xethya.Entities.Order
              */
-            chaotic: 2
+            Chaotic: 2
         },
         $enum: true
     });
@@ -614,7 +614,7 @@
              */
             byName: function (obj, name) {
                 return Bridge.Linq.Enumerable.from(obj).single(function (s) {
-                    return s.getName() === name;
+                    return Bridge.referenceEquals(s.getName(), name);
                 });
             }
         }
@@ -639,7 +639,7 @@
              */
             byName: function (obj, name) {
                 return Bridge.Linq.Enumerable.from(obj).single(function (s) {
-                    return s.getName() === name;
+                    return Bridge.referenceEquals(s.getName(), name);
                 });
             }
         }
@@ -668,7 +668,7 @@
          * @memberof Xethya.Entities.Attribute
          * @type number
          */
-        _Value: 0,
+        _Value: Bridge.Decimal(0.0),
         config: {
             properties: {
                 /**
@@ -759,7 +759,7 @@
         constructor: function (name) {
             Xethya.Common.ValueInterval.prototype.$constructor.call(this, 0, 2147483647);
     
-            this.setID(Bridge.get(Xethya.Common.Guid).generate());
+            this.setID(Bridge.Guid.newGuid().toString());
             this.setName(name);
             this.setModifiers(new Bridge.List$1(Xethya.Entities.Modifier)());
         },
@@ -777,7 +777,7 @@
         constructor$1: function (name, valueRange) {
             Xethya.Common.ValueInterval.prototype.$constructor.call(this, valueRange.getLowerBound(), valueRange.getUpperBound());
     
-            this.setID(Bridge.get(Xethya.Common.Guid).generate());
+            this.setID(Bridge.Guid.newGuid().toString());
             this.setName(name);
             this.setModifiers(new Bridge.List$1(Xethya.Entities.Modifier)());
         },
@@ -906,7 +906,7 @@
          * @function setComputedValue
          */
         getComputedValue: function () {
-            return this.getValue() + this.getModifierSum();
+            return this.getValue().add(this.getModifierSum());
         },
         /**
          * When the value of the attribute is changed, this method recalculates the
@@ -923,7 +923,7 @@
         _RefreshBaseModifier: function () {
             var baseModifier = new Xethya.Entities.Modifier("constructor$1", "baseModifier");
             baseModifier.setSource(null);
-            baseModifier.setValue(Bridge.Convert.toInt32(Bridge.Decimal(this.getValue()).mul(Bridge.Decimal(0.15))));
+            baseModifier.setValue(Bridge.Decimal(Bridge.Convert.toInt32(this.getValue().mul(Bridge.Decimal(0.15)))));
             if (this.getModifiers().getCount() === 0) {
                 this.getModifiers().add(baseModifier);
             }
@@ -940,8 +940,8 @@
          * @return  {string}
          */
         toString: function () {
-            var sign = this.getModifierSum() >= 0 ? "+" : "-";
-            return this.getValue().toString() + " (" + sign + this.getModifierSum().toString() + ")";
+            var sign = this.getModifierSum().gte(Bridge.Decimal(0)) ? "+" : "-";
+            return Bridge.Int.format(this.getValue(), 'G') + " (" + sign + Bridge.Int.format(this.getModifierSum(), 'G') + ")";
         }
     });
     
@@ -980,7 +980,7 @@
                  * @this Xethya.Entities.Entity
                  * @memberof Xethya.Entities.Entity
                  * @function getID
-                 * @return  {string}
+                 * @return  {Bridge.Guid}
                  */
                 /**
                  * Contains the entity's GUID. Can only be set
@@ -991,7 +991,7 @@
                  * @this Xethya.Entities.Entity
                  * @memberof Xethya.Entities.Entity
                  * @function setID
-                 * @param   {string}    value
+                 * @param   {Bridge.Guid}    value
                  * @return  {void}
                  */
                 ID: null,
@@ -1087,6 +1087,9 @@
                  * @return  {void}
                  */
                 IsAlive: false
+            },
+            init: function () {
+                this.ID = new Bridge.Guid();
             }
         },
         /**
@@ -1099,7 +1102,7 @@
          * @return  {void}
          */
         constructor: function () {
-            this.setID(Bridge.get(Xethya.Common.Guid).generate());
+            this.setID(Bridge.Guid.newGuid());
             this.setIsVolatile(false);
             this.setIsAlive(false);
             this.setAttributes(new Bridge.List$1(Xethya.Entities.Attribute)());
@@ -1117,7 +1120,7 @@
          * @return  {void}
          */
         constructor$1: function (name) {
-            this.setID(Bridge.get(Xethya.Common.Guid).generate());
+            this.setID(Bridge.Guid.newGuid());
             this.setName(name);
             this.setIsVolatile(false);
             this.setIsAlive(false);
@@ -1140,8 +1143,8 @@
                 return;
             }
     
-            Bridge.get(Xethya.Entities.EntityContainer).initializeIfNeeded();
-            Bridge.get(Xethya.Entities.EntityContainer).register(this);
+            Xethya.Entities.EntityContainer.initializeIfNeeded();
+            Xethya.Entities.EntityContainer.register(this);
         },
         /**
          * Gets an entity's attribute.
@@ -1155,7 +1158,7 @@
          */
         getAttributeByName: function (attributeName) {
             return Bridge.Linq.Enumerable.from(this.getAttributes()).single(function (a) {
-                return a.getName() === attributeName;
+                return Bridge.referenceEquals(a.getName(), attributeName);
             });
         }
     });
@@ -1340,7 +1343,7 @@
          */
         defineAttributeBoost: function (attributeName, value) {
             var attribute = new Xethya.Entities.Attribute("constructor", attributeName);
-            attribute.setValue(value);
+            attribute.setValue(Bridge.Decimal(value));
             this.getAttributes().add(attribute);
         },
         /**
@@ -1355,7 +1358,7 @@
         defineStatBoost: function (statName, value) {
             var stat = new Xethya.Entities.Stat("constructor", statName);
             var modifier = new Xethya.Entities.Modifier("constructor");
-            modifier.setValue(value);
+            modifier.setValue(Bridge.Decimal(value));
             stat.getModifiers().insert(1, modifier);
             this.getStats().add(stat);
         }
@@ -1442,7 +1445,7 @@
          */
         getSkillByName: function (skillName) {
             return Bridge.Linq.Enumerable.from(this.getSkills()).first(function (s) {
-                return s.getName() === skillName;
+                return Bridge.referenceEquals(s.getName(), skillName);
             });
         },
         /**
@@ -1458,7 +1461,7 @@
          * @return  {Xethya.DiceRolling.SkillThrowResult}                 The outcome of the skill's invocation.
          */
         useSkill: function (skillName) {
-            return this.getSkillByName(skillName).$use();
+            return this.getSkillByName(skillName).use();
         }
     });
     
@@ -1550,7 +1553,7 @@
          */
         getAttributeByName: function (attributeName) {
             return Bridge.Linq.Enumerable.from(this.getAttributes()).first(function (a) {
-                return a.getName() === attributeName;
+                return Bridge.referenceEquals(a.getName(), attributeName);
             });
         },
         /**
@@ -1565,16 +1568,16 @@
          * @memberof Xethya.Entities.Skill
          * @return  {Xethya.DiceRolling.SkillThrowResult}        The outcome of the skill's execution, with a SkillThrowResult instance.
          */
-        $use: function () {
+        use: function () {
             var $t;
             var st = new Xethya.DiceRolling.SkillThrow(this);
             var str = st.roll$2();
             $t = Bridge.getEnumerator(this.getAttributes());
             while ($t.moveNext()) {
                 var attribute = $t.getCurrent();
-                str.setSkillAttributeModifiersValue(str.getSkillAttributeModifiersValue()+attribute.getModifierSum());
+                str.setSkillAttributeModifiersValue(str.getSkillAttributeModifiersValue().add(attribute.getModifierSum()));
             }
-            if (str.getThrowType() === Xethya.DiceRolling.DiceThrowType.failure) {
+            if (str.getThrowType() === Xethya.DiceRolling.DiceThrowType.Failure) {
                 str.setFailureRoll(new Xethya.DiceRolling.ChanceThrow("constructor").roll$1());
             }
             else  {
@@ -1723,7 +1726,7 @@
          * @function setValue
          */
         getValue: function () {
-            if (!Bridge.hasValue(this.getCalculationCallback())) {
+            if (this.getCalculationCallback() == null) {
                 throw new Bridge.InvalidOperationException("A calculation callback must be defined for the " + this.getName() + " stat.");
             }
             return this.getCalculationCallback().call(null, this.getAttributes(), this.getStats());
@@ -1741,7 +1744,7 @@
          */
         getStatByName: function (statName) {
             return Bridge.Linq.Enumerable.from(this.getStats()).single(function (s) {
-                return s.getName() === statName;
+                return Bridge.referenceEquals(s.getName(), statName);
             });
         },
         /**
@@ -1770,7 +1773,7 @@
          */
         getAttributeByName: function (attributeName) {
             return Bridge.Linq.Enumerable.from(this.getAttributes()).first(function (a) {
-                return a.getName() === attributeName;
+                return Bridge.referenceEquals(a.getName(), attributeName);
             });
         }
     });
@@ -1812,6 +1815,28 @@
                  * @return  {void}
                  */
                 Age: 0,
+                /**
+                 * The entity's height, in centimeters.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.LivingEntity
+                 * @memberof Xethya.Entities.LivingEntity
+                 * @function getHeight
+                 * @return  {number}
+                 */
+                /**
+                 * The entity's height, in centimeters.
+                 *
+                 * @instance
+                 * @public
+                 * @this Xethya.Entities.LivingEntity
+                 * @memberof Xethya.Entities.LivingEntity
+                 * @function setHeight
+                 * @param   {number}    value
+                 * @return  {void}
+                 */
+                Height: 0,
                 /**
                  * Allows the implementing object to hold stats.
                  *
@@ -1922,7 +1947,7 @@
          * @function setIsBeyondLifeExpectancy
          */
         getIsBeyondLifeExpectancy: function () {
-            return !(new Xethya.Common.ValueInterval(1, this.getRace().getLifeExpectancy()).valueInRange(this.getAge()));
+            return !(new Xethya.Common.ValueInterval(Bridge.Decimal(1), Bridge.Decimal(this.getRace().getLifeExpectancy())).valueInRange(Bridge.Decimal(this.getAge())));
         },
         /**
          * Selects a stat from the list by its
@@ -1937,7 +1962,7 @@
          */
         getStatByName: function (statName) {
             return Bridge.Linq.Enumerable.from(this.getStats()).single(function (s) {
-                return s.getName() === statName;
+                return Bridge.referenceEquals(s.getName(), statName);
             });
         },
         /**
@@ -1948,7 +1973,7 @@
          * @return  {void}
          */
         _RegisterLivingEntityAttributes: function () {
-            this.getAttributes().addRange([Bridge.get(Xethya.Common.Gamebook.AttributeDefinitions).getStrength(), Bridge.get(Xethya.Common.Gamebook.AttributeDefinitions).getDexterity(), Bridge.get(Xethya.Common.Gamebook.AttributeDefinitions).getConstitution(), Bridge.get(Xethya.Common.Gamebook.AttributeDefinitions).getIntelligence(), Bridge.get(Xethya.Common.Gamebook.AttributeDefinitions).getWisdom(), Bridge.get(Xethya.Common.Gamebook.AttributeDefinitions).getCharisma()]);
+            this.getAttributes().addRange([Xethya.Common.Gamebook.AttributeDefinitions.getStrength(), Xethya.Common.Gamebook.AttributeDefinitions.getDexterity(), Xethya.Common.Gamebook.AttributeDefinitions.getConstitution(), Xethya.Common.Gamebook.AttributeDefinitions.getIntelligence(), Xethya.Common.Gamebook.AttributeDefinitions.getWisdom(), Xethya.Common.Gamebook.AttributeDefinitions.getCharisma()]);
         },
         /**
          * @instance
@@ -1958,9 +1983,9 @@
          * @return  {void}
          */
         _RegisterLivingEntitySkills: function () {
-            var STR = this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Strength), DEX = this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Dexterity), INT = this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Intelligence), WIS = this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Wisdom), CHA = this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Charisma);
+            var STR = this.getAttributeByName(Xethya.Common.Gamebook.AttributeNames.Strength), DEX = this.getAttributeByName(Xethya.Common.Gamebook.AttributeNames.Dexterity), INT = this.getAttributeByName(Xethya.Common.Gamebook.AttributeNames.Intelligence), WIS = this.getAttributeByName(Xethya.Common.Gamebook.AttributeNames.Wisdom), CHA = this.getAttributeByName(Xethya.Common.Gamebook.AttributeNames.Charisma);
     
-            this.getSkills().addRange([Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).athletics(STR), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).acrobatics(DEX), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).sleightOfHand(DEX), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).stealth(DEX), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).arcana(INT), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).history(INT), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).investigation(INT), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).nature(INT), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).religion(INT), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).animalHandling(WIS), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).insight(WIS), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).medicine(WIS), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).perception(WIS), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).survival(WIS), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).deception(CHA), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).intimidation(CHA), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).performance(CHA), Bridge.get(Xethya.Common.Gamebook.SkillDefinitions).persuasion(CHA)]);
+            this.getSkills().addRange([Xethya.Common.Gamebook.SkillDefinitions.athletics(STR), Xethya.Common.Gamebook.SkillDefinitions.acrobatics(DEX), Xethya.Common.Gamebook.SkillDefinitions.sleightOfHand(DEX), Xethya.Common.Gamebook.SkillDefinitions.stealth(DEX), Xethya.Common.Gamebook.SkillDefinitions.arcana(INT), Xethya.Common.Gamebook.SkillDefinitions.history(INT), Xethya.Common.Gamebook.SkillDefinitions.investigation(INT), Xethya.Common.Gamebook.SkillDefinitions.nature(INT), Xethya.Common.Gamebook.SkillDefinitions.religion(INT), Xethya.Common.Gamebook.SkillDefinitions.animalHandling(WIS), Xethya.Common.Gamebook.SkillDefinitions.insight(WIS), Xethya.Common.Gamebook.SkillDefinitions.medicine(WIS), Xethya.Common.Gamebook.SkillDefinitions.perception(WIS), Xethya.Common.Gamebook.SkillDefinitions.survival(WIS), Xethya.Common.Gamebook.SkillDefinitions.deception(CHA), Xethya.Common.Gamebook.SkillDefinitions.intimidation(CHA), Xethya.Common.Gamebook.SkillDefinitions.performance(CHA), Xethya.Common.Gamebook.SkillDefinitions.persuasion(CHA)]);
         },
         /**
          * @instance
@@ -1970,8 +1995,8 @@
          * @return  {void}
          */
         _RegisterLivingEntityStats: function () {
-            this.getStats().addRange([Bridge.get(Xethya.Common.Gamebook.StatDefinitions).carryingCapacity(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Strength)), Bridge.get(Xethya.Common.Gamebook.StatDefinitions).hitPoints(this.getAttributeByName(Bridge.get(Xethya.Common.Gamebook.AttributeNames).Constitution))]);
-            this.getStats().addRange([Bridge.get(Xethya.Common.Gamebook.StatDefinitions).objectHandlingCapacity(this.getStatByName(Bridge.get(Xethya.Common.Gamebook.StatNames).CarryingCapacity))]);
+            this.getStats().addRange([Xethya.Common.Gamebook.StatDefinitions.carryingCapacity(this.getAttributeByName(Xethya.Common.Gamebook.AttributeNames.Strength)), Xethya.Common.Gamebook.StatDefinitions.hitPoints(this.getAttributeByName(Xethya.Common.Gamebook.AttributeNames.Constitution))]);
+            this.getStats().addRange([Xethya.Common.Gamebook.StatDefinitions.objectHandlingCapacity(this.getStatByName(Xethya.Common.Gamebook.StatNames.CarryingCapacity))]);
         },
         /**
          * @instance
@@ -1986,7 +2011,7 @@
             while ($t.moveNext()) {
                 var attribute = $t.getCurrent();
                 var raceTrait = new Xethya.Entities.Modifier("constructor$1", attribute.getName() + "RaceTrait");
-                raceTrait.setValue(Bridge.Convert.toInt32(Xethya.Entities.AttributeExtensions.byName(this.getRace().getAttributes(), attribute.getName()).getValue()));
+                raceTrait.setValue(Bridge.Decimal(Bridge.Convert.toInt32(Xethya.Entities.AttributeExtensions.byName(this.getRace().getAttributes(), attribute.getName()).getValue())));
                 Xethya.Entities.AttributeExtensions.byName(this.getAttributes(), attribute.getName()).getModifiers().add(raceTrait);
             }
     
@@ -1994,7 +2019,7 @@
             while ($t1.moveNext()) {
                 var skill = $t1.getCurrent();
                 var raceTrait1 = new Xethya.Entities.Modifier("constructor$1", skill.getName() + "RaceTrait");
-                raceTrait1.setValue(Bridge.Convert.toInt32(Xethya.Entities.SkillExtensions.byName(this.getRace().getSkills(), skill.getName()).getValue()));
+                raceTrait1.setValue(Bridge.Decimal(Bridge.Convert.toInt32(Xethya.Entities.SkillExtensions.byName(this.getRace().getSkills(), skill.getName()).getValue())));
                 Xethya.Entities.SkillExtensions.byName(this.getSkills(), skill.getName()).getModifiers().add(raceTrait1);
             }
     
@@ -2002,7 +2027,7 @@
             while ($t2.moveNext()) {
                 var stat = $t2.getCurrent();
                 var raceTrait2 = new Xethya.Entities.Modifier("constructor$1", stat.getName() + "RaceTrait");
-                raceTrait2.setValue(Bridge.Convert.toInt32(Xethya.Entities.StatExtensions.byName(this.getRace().getStats(), stat.getName()).getModifiers().getItem(1)));
+                raceTrait2.setValue(Bridge.Decimal(Bridge.Convert.toInt32(Xethya.Entities.StatExtensions.byName(this.getRace().getStats(), stat.getName()).getModifiers().getItem(1))));
                 Xethya.Entities.StatExtensions.byName(this.getStats(), stat.getName()).getModifiers().add(raceTrait2);
             }
         }
@@ -2012,7 +2037,7 @@
     
     Bridge.apply($_.Xethya.Entities.LivingEntity, {
         f1: function (a) {
-            return a.getValue() >= 27;
+            return a.getValue().gte(Bridge.Decimal(27));
         }
     });
     
