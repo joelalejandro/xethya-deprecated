@@ -91,6 +91,8 @@ namespace Xethya.Common.Gamebook
                 race.LifeExpectancy = 160;
                 race.DefaultAlignment = EntityAlignment.LawfulGood;
 
+                race.HeightRange = "82,103".AsValueInterval();
+
                 return race;
             }
         }
