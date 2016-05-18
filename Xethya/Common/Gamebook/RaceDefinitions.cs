@@ -140,6 +140,8 @@ namespace Xethya.Common.Gamebook
                 race.DefineAttributeBoost(AttributeNames.Speed, 30);
                 race.LifeExpectancy = 80;
 
+                race.HeightRange = "182,213".AsValueInterval();
+
                 return race;
             }
         }
