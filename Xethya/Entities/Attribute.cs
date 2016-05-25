@@ -125,14 +125,13 @@ namespace Xethya.Entities
         /// <summary>
         /// When the value of the attribute is changed, this method recalculates the
         /// base modifier. The base modifier is the first modifier registered in the
-        /// list (Modifiers[0]), and (unless overriden), the method calculates its
-        /// value as the 15% of the attribute's value.
+        /// list (Modifiers[0]).
         /// </summary>
         protected virtual void _RefreshBaseModifier()
         {
             var baseModifier = new Modifier("baseModifier");
             baseModifier.Source = null;
-            baseModifier.Value = Convert.ToInt32(Value * 0.15M);
+            baseModifier.Value = Math.Floor((Value - 10) / 2);
             if (Modifiers.Count == 0)
             {
                 Modifiers.Add(baseModifier);
